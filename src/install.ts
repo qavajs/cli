@@ -1,6 +1,7 @@
 import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
+import yarnInstall from 'yarn-install';
 
 type Answers = {
     modules: Array<string>,
@@ -71,4 +72,10 @@ export default async function install(): Promise<void> {
         );
         await fs.writeFile('./page_object/index.js', poTemplate, 'utf-8');
     }
+
+    yarnInstall({
+        deps: ['@cucumber-e2e/po2', '@cucumber-e2e/memory2'],
+        cwd: process.cwd(),
+        respectNpm5: true
+    });
 }
