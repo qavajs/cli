@@ -1,9 +1,10 @@
 {
   "name": "@yaatp/cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
-    "build": "tsc -w"
+    "build": "tsc",
+    "build-watch": "tsc -w"
   },
   "authors": [
     "Alexandr Galichenko"
@@ -13,11 +14,14 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@cucumber/cucumber": "^8.2.2",
+    "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "yarn-install": "^1.0.0"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^8.3.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.1",
     "@types/node": "^17.0.42",
     "@types/yargs": "^17.0.10",

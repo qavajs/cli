@@ -6,5 +6,5 @@ const argv: any = yargs(process.argv.slice(2)).argv;
 
 switch (argv._[0]) {
     case 'install': install(); break;
-    case 'run': cli.run(); break;
+    case 'run': cli(); break;
 }

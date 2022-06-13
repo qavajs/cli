@@ -1,0 +1,12 @@
+const Memory = require("./memory");
+<importPageObject>
+
+module.exports = {
+    paths: ["features/**/*.feature"],
+    require: <modules>,
+    format: <format>,
+    memory: new Memory(),
+    <configPageObject>
+    parallel: <parallel>,
+    publishQuiet: true
+}
