@@ -1,7 +1,7 @@
 import yargs from 'yargs';
-import { Cli } from '@cucumber/cucumber';
 
 export default async function(): Promise<void> {
+    const { Cli } = await import('@cucumber/cucumber');
     const argv: any = yargs(process.argv.slice(2)).argv;
 
     process.env.CONFIG = argv.config ?? 'cucumber.js' ?? 'cucumber.json';

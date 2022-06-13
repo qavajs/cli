@@ -2,6 +2,7 @@ import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
 import yarnInstall from 'yarn-install';
+import deps from './deps';
 
 type Answers = {
     modules: Array<string>,
@@ -74,7 +75,7 @@ export default async function install(): Promise<void> {
     }
 
     yarnInstall({
-        deps: ['@cucumber-e2e/po2', '@cucumber-e2e/memory2'],
+        deps,
         cwd: process.cwd(),
         respectNpm5: true
     });
