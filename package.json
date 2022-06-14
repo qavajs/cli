@@ -10,7 +10,8 @@
     "Alexandr Galichenko"
   ],
   "bin": {
-    "yaatp": "./bin/yaatp.js"
+    "yaatp": "./bin/yaatp.js",
+    "cucumber-js": "bin/yaatp.js"
   },
   "license": "ISC",
   "dependencies": {
