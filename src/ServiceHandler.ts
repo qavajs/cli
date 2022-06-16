@@ -1,5 +1,4 @@
 import path from 'path';
-import {isArray} from "util";
 
 export default class ServiceHandler {
     private config: Config;
@@ -10,6 +9,7 @@ export default class ServiceHandler {
     }
 
     loadServices() {
+        if (!this.config.service) return [];
         return this.config.service.map(svc => {
             if (typeof svc === 'string') {
                 try {
