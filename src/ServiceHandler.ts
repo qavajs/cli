@@ -1,4 +1,5 @@
 import path from 'path';
+import {isArray} from "util";
 
 export default class ServiceHandler {
     private config: Config;
@@ -17,7 +18,19 @@ export default class ServiceHandler {
                 } catch (e) {
                     return require(path.join(process.cwd(), svc))
                 }
-            } else {
+            }
+            else if (Array.isArray(svc)) {
+                const [svcPath, options] = svc;
+                let service;
+                try {
+                    require.resolve(svcPath);
+                    service = require(svcPath)
+                } catch (e) {
+                    service = require(path.join(process.cwd(), svcPath))
+                }
+                service.options = options;
+            }
+            else {
                 return svc
             }
         })
