@@ -1,4 +1,4 @@
-const {$, $$} = require('@cucumber-e2e/po2');
+const {$, $$} = require('@qavajs/po');
 
 class App {
     Body = $('body');

@@ -1,17 +1,16 @@
 {
-  "name": "@yaatp/cli",
+  "name": "@qavajs/cli",
   "version": "0.0.2",
-  "description": "",
+  "description": "cli for qavajs framework",
   "scripts": {
-    "build": "tsc",
-    "build-watch": "tsc -w"
+    "build": "tsc"
   },
   "authors": [
     "Alexandr Galichenko"
   ],
   "bin": {
-    "yaatp": "./bin/yaatp.js",
-    "cucumber-js": "bin/yaatp.js"
+    "qavajs": "bin/qavajs.js",
+    "cucumber-js": "bin/qavajs.js"
   },
   "license": "ISC",
   "dependencies": {
