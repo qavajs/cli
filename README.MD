@@ -4,8 +4,8 @@ Module to execute tests. Fully compatible with cucumber executor.
                   
 Setup project
 
-`npx yaatp install`
+`npx qavajs install`
 
 Run tests
 
-`npx yaatp run --config <config> --profile <profile>`
+`npx qavajs run --config <config> --profile <profile>`
