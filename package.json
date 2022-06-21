@@ -9,8 +9,7 @@
     "Alexandr Galichenko"
   ],
   "bin": {
-    "qavajs": "bin/qavajs.js",
-    "cucumber-js": "bin/qavajs.js"
+    "qavajs": "bin/qavajs.js"
   },
   "license": "ISC",
   "dependencies": {
