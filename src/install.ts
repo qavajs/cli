@@ -2,27 +2,40 @@ import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
 import yarnInstall from 'yarn-install';
-import deps from './deps';
+import deps, {steps, format, services, ModuleDefinition} from './deps';
 
 type Answers = {
-    modules: Array<string>,
-    format: Array<string>,
+    steps: Array<string>,
+    formats: Array<string>,
+    services: Array<string>
     parallel: number
+}
+
+const modules = (deps: Array<ModuleDefinition>) => deps.map(({module}) => module);
+const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>): Array<string> => {
+    return moduleList
+        .map((module: string) => packageMap.find((p: ModuleDefinition) => p.module === module)?.packageName) as Array<string>
 }
 
 export default async function install(): Promise<void> {
     const answers = await inquirer.prompt([
         {
             type: 'checkbox',
-            message: 'select modules to install:',
-            name: 'modules',
-            choices: ['wdio', 'api']
+            message: 'select step modules to install:',
+            name: 'steps',
+            choices: modules(steps)
         },
         {
             type: 'checkbox',
             message: 'select formatters (reporters) to install:',
-            name: 'format',
-            choices: ['html', 'json', 'progress']
+            name: 'formats',
+            choices: modules(format)
+        },
+        {
+            type: 'checkbox',
+            message: 'select services to install:',
+            name: 'services',
+            choices: modules(services)
         },
         {
             type: 'number',
@@ -32,22 +45,37 @@ export default async function install(): Promise<void> {
         }
     ]) as Answers;
 
-    const isWDIOIncluded: boolean = answers.modules.includes('wdio');
+    const stepsPackages: Array<string> = packages(answers.steps, steps);
+    const formatPackages: Array<string> = packages(answers.formats, format);
+    const servicePackages: Array<string> = packages(answers.services, services);
+
+    const isPOIncluded: boolean = answers.steps.includes('wdio');
 
     const configTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/config.template'),
         'utf-8'
     );
+    const configLoaderPackage = '@qavajs/steps-config-loader';
 
     let config: string = configTemplate
-        .replace('<modules>', JSON.stringify(answers.modules))
-        .replace('<format>', JSON.stringify(answers.format))
+        .replace('<modules>', JSON.stringify([configLoaderPackage, ...stepsPackages].map(p => 'node_modules/' + p)))
+        .replace('<format>', JSON.stringify(formatPackages))
+        .replace('<service>', JSON.stringify(servicePackages))
         .replace('<parallel>', answers.parallel.toString())
 
-    if (isWDIOIncluded) {
+    if (isPOIncluded) {
+        const pageObjectSnippet =
+    `
+        pageObject: new App(),
+        browser: {
+            capabilities: {
+                browserName: 'chrome'
+            }
+        },
+    `
         config = config
-            .replace('<importPageObject>', `const App = require("./page_object");`)
-            .replace('<configPageObject>', 'pageObject: new App(),');
+            .replace('<importPageObject>', 'const App = require("./page_object");')
+            .replace('<configPageObject>', pageObjectSnippet);
     }
 
     config = config
@@ -57,6 +85,7 @@ export default async function install(): Promise<void> {
     await fs.writeFile('config.js', config, 'utf-8');
     await fs.ensureDir('./features');
     await fs.ensureDir('./memory/');
+    await fs.ensureDir('./report/');
 
     const memoryTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/memory.template'),
@@ -65,7 +94,7 @@ export default async function install(): Promise<void> {
 
     await fs.writeFile('./memory/index.js', memoryTemplate, 'utf-8');
 
-    if (isWDIOIncluded) {
+    if (isPOIncluded) {
         await fs.ensureDir('./page_object');
         const poTemplate: string = await fs.readFile(
             path.resolve(__dirname, '../templates/po.template'),
@@ -74,8 +103,12 @@ export default async function install(): Promise<void> {
         await fs.writeFile('./page_object/index.js', poTemplate, 'utf-8');
     }
 
+    const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...servicePackages];
+    console.log('installing modules...');
+    console.log(modulesToInstall);
+
     yarnInstall({
-        deps,
+        deps: modulesToInstall,
         cwd: process.cwd(),
         respectNpm5: true
     });
