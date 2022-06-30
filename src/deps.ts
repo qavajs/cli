@@ -12,7 +12,8 @@ export type ModuleDefinition = {
 
 export const steps: Array<ModuleDefinition> = [
     { module: 'wdio', packageName: '@qavajs/steps-wdio'},
-    { module: 'api', packageName: '@qavajs/steps-api'},
+    // commented until module is not available
+    // { module: 'api', packageName: '@qavajs/steps-api'},
     { module: 'memory', packageName: '@qavajs/steps-memory'},
 ]
 
