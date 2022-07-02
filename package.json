@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc"
@@ -12,7 +12,7 @@
     "qavajs": "bin/qavajs.js",
     "cucumber-js": "bin/qavajs.js"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4",
@@ -20,7 +20,7 @@
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^8.3.0",
+    "@cucumber/cucumber": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.1",
     "@types/node": "^17.0.42",

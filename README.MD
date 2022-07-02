@@ -1,4 +1,4 @@
-## @yaatp/cli
+## @qavajs/cli
 
 Module to execute tests. Fully compatible with cucumber executor.
                   
