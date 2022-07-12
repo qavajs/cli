@@ -112,7 +112,7 @@ export default async function install(): Promise<void> {
     }
 
     const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...servicePackages, ...modulePackages];
-    console.log('installing packs...');
+    console.log('installing packages...');
     console.log(modulesToInstall);
 
     yarnInstall({
