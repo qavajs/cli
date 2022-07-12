@@ -4,7 +4,8 @@ const Memory = require("./memory");
 module.exports = {
     default: {
         paths: ["features/**/*.feature"],
-        require: <modules>,
+        require: <steps>,
+        requireModule: <modules>
         format: <format>,
         memory: new Memory(),
         <configPageObject>
