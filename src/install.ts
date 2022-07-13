@@ -2,16 +2,17 @@ import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
 import yarnInstall from 'yarn-install';
-import deps, {steps, format, services, ModuleDefinition} from './deps';
+import deps, {steps, format, services, modules, ModuleDefinition} from './deps';
 
 type Answers = {
     steps: Array<string>,
     formats: Array<string>,
-    services: Array<string>
+    services: Array<string>,
+    modules: Array<string>,
     parallel: number
 }
 
-const modules = (deps: Array<ModuleDefinition>) => deps.map(({module}) => module);
+const packs = (deps: Array<ModuleDefinition>) => deps.map(({module}) => module);
 const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>): Array<string> => {
     return moduleList
         .map((module: string) => packageMap.find((p: ModuleDefinition) => p.module === module)?.packageName) as Array<string>
@@ -21,21 +22,27 @@ export default async function install(): Promise<void> {
     const answers = await inquirer.prompt([
         {
             type: 'checkbox',
-            message: 'select step modules to install:',
+            message: 'select step packages to install:',
             name: 'steps',
-            choices: modules(steps)
+            choices: packs(steps)
+        },
+        {
+            type: 'checkbox',
+            message: 'select modules to install:',
+            name: 'modules',
+            choices: packs(modules)
         },
         {
             type: 'checkbox',
             message: 'select formatters (reporters) to install:',
             name: 'formats',
-            choices: modules(format)
+            choices: packs(format)
         },
         {
             type: 'checkbox',
             message: 'select services to install:',
             name: 'services',
-            choices: modules(services)
+            choices: packs(services)
         },
         {
             type: 'number',
@@ -48,6 +55,7 @@ export default async function install(): Promise<void> {
     const stepsPackages: Array<string> = packages(answers.steps, steps);
     const formatPackages: Array<string> = packages(answers.formats, format);
     const servicePackages: Array<string> = packages(answers.services, services);
+    const modulePackages: Array<string> = packages(answers.modules, modules);
 
     const isPOIncluded: boolean = answers.steps.includes('wdio');
 
@@ -58,7 +66,7 @@ export default async function install(): Promise<void> {
     const configLoaderPackage = '@qavajs/steps-config-loader';
 
     let config: string = configTemplate
-        .replace('<modules>', JSON.stringify([configLoaderPackage, ...stepsPackages].map(p => 'node_modules/' + p)))
+        .replace('<steps>', JSON.stringify([configLoaderPackage, ...stepsPackages].map(p => 'node_modules/' + p)))
         .replace('<format>', JSON.stringify(formatPackages))
         .replace('<service>', JSON.stringify(servicePackages))
         .replace('<parallel>', answers.parallel.toString())
@@ -103,8 +111,8 @@ export default async function install(): Promise<void> {
         await fs.writeFile('./page_object/index.js', poTemplate, 'utf-8');
     }
 
-    const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...servicePackages];
-    console.log('installing modules...');
+    const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...servicePackages, ...modulePackages];
+    console.log('installing packages...');
     console.log(modulesToInstall);
 
     yarnInstall({

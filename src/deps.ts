@@ -12,8 +12,7 @@ export type ModuleDefinition = {
 
 export const steps: Array<ModuleDefinition> = [
     { module: 'wdio', packageName: '@qavajs/steps-wdio'},
-    // commented until module is not available
-    // { module: 'api', packageName: '@qavajs/steps-api'},
+    { module: 'api', packageName: '@qavajs/steps-api'},
     { module: 'memory', packageName: '@qavajs/steps-memory'},
 ]
 
@@ -23,5 +22,9 @@ export const format: Array<ModuleDefinition> = [
 
 export const services: Array<ModuleDefinition> = [
     { module: 'selenium-standalone', packageName: '@qavajs/service-selenium-standalone'},
+]
+
+export const modules: Array<ModuleDefinition> = [
+    { module: 'template', packageName: '@qavajs/template'},
 ]
 

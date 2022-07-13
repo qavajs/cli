@@ -1,7 +1,9 @@
 ## @qavajs/cli
 
-Module to execute tests. Fully compatible with cucumber executor.
-                  
+Cli for @qavajs framework.
+          
+`npm install @qavajs/cli`
+
 Setup project
 
 `npx qavajs install`
