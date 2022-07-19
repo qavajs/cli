@@ -68,6 +68,7 @@ export default async function install(): Promise<void> {
         .replace('<steps>', JSON.stringify([...stepsPackages].map(p => 'node_modules/' + p)))
         .replace('<format>', JSON.stringify(formatPackages))
         .replace('<service>', JSON.stringify(servicePackages))
+        .replace('<modules>', JSON.stringify(modulePackages))
         .replace('<parallel>', answers.parallel.toString())
 
     if (isPOIncluded) {
