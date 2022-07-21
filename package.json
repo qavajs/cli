@@ -8,6 +8,7 @@
   "authors": [
     "Alexandr Galichenko"
   ],
+  "main": "index.js",
   "bin": {
     "qavajs": "bin/qavajs.js",
     "cucumber-js": "bin/qavajs.js"
