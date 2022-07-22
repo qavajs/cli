@@ -3,7 +3,8 @@
   "version": "0.0.6",
   "description": "cli for qavajs framework",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "authors": [
     "Alexandr Galichenko"
@@ -25,8 +26,11 @@
     "@cucumber/cucumber": "^8.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/inquirer": "^8.2.1",
+    "@types/jest": "^28.1.6",
     "@types/node": "^17.0.42",
     "@types/yargs": "^17.0.10",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.7",
     "typescript": "^4.7.3"
   }
 }
