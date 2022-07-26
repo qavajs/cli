@@ -63,12 +63,12 @@ export default async function install(): Promise<void> {
         path.resolve(__dirname, '../templates/config.template'),
         'utf-8'
     );
-    const configLoaderPackage = '@qavajs/steps-config-loader';
 
     let config: string = configTemplate
-        .replace('<steps>', JSON.stringify([configLoaderPackage, ...stepsPackages].map(p => 'node_modules/' + p)))
+        .replace('<steps>', JSON.stringify([...stepsPackages].map(p => 'node_modules/' + p)))
         .replace('<format>', JSON.stringify(formatPackages))
         .replace('<service>', JSON.stringify(servicePackages))
+        .replace('<modules>', JSON.stringify(modulePackages))
         .replace('<parallel>', answers.parallel.toString())
 
     if (isPOIncluded) {

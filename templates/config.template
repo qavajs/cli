@@ -5,7 +5,7 @@ module.exports = {
     default: {
         paths: ["features/**/*.feature"],
         require: <steps>,
-        requireModule: <modules>
+        requireModule: <modules>,
         format: <format>,
         memory: new Memory(),
         <configPageObject>

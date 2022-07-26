@@ -4,6 +4,8 @@ declare type Config = {
 
 declare type Service = {
     options?: Object,
+    capabilities?: Object,
+    config?: Object,
     before?: Function,
     after?: Function
 }

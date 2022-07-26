@@ -1,8 +1,7 @@
 export default [
     '@cucumber/cucumber',
     '@qavajs/po',
-    '@qavajs/memory',
-    '@qavajs/steps-config-loader'
+    '@qavajs/memory'
 ]
 
 export type ModuleDefinition = {
