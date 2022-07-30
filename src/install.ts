@@ -14,7 +14,11 @@ type Answers = {
 const packs = (deps: Array<ModuleDefinition>) => deps.map(({module}) => module);
 const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>): Array<string> => {
     return moduleList
-        .map((module: string) => packageMap.find((p: ModuleDefinition) => p.module === module)?.packageName) as Array<string>
+        .map((module: string) => {
+            const pkg = packageMap.find((p: ModuleDefinition) => p.module === module);
+            if (!pkg) throw new Error(`${module} module is not found`);
+            return pkg.packageName
+        }) as Array<string>
 }
 
 export default async function install(): Promise<void> {
@@ -50,7 +54,6 @@ export default async function install(): Promise<void> {
     const modulePackages: Array<string> = packages(answers.modules, modules);
 
     const isPOIncluded: boolean = answers.steps.includes('wdio');
-
     const configTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/config.template'),
         'utf-8'
@@ -68,7 +71,7 @@ export default async function install(): Promise<void> {
         pageObject: new App(),
         browser: {
             capabilities: {
-                browserName: 'chrome'
+                browserName: "chrome"
             }
         },
     `
@@ -83,8 +86,8 @@ export default async function install(): Promise<void> {
 
     await fs.writeFile('config.js', config, 'utf-8');
     await fs.ensureDir('./features');
-    await fs.ensureDir('./memory/');
-    await fs.ensureDir('./report/');
+    await fs.ensureDir('./memory');
+    await fs.ensureDir('./report');
 
     const memoryTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/memory.template'),

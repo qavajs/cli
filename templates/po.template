@@ -1,7 +1,7 @@
-const {$, $$} = require('@qavajs/po');
+const { $, $$ } = require("@qavajs/po");
 
 class App {
-    Body = $('body');
+    Body = $("body");
 }
 
 module.exports = App;
