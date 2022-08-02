@@ -4,7 +4,7 @@
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --coverage --resetMocks"
   },
   "authors": [
     "Alexandr Galichenko"

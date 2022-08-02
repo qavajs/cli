@@ -19,10 +19,6 @@ export const format: Array<ModuleDefinition> = [
     { module: 'report-portal', packageName: '@qavajs/format-report-portal'},
 ]
 
-export const services: Array<ModuleDefinition> = [
-    { module: 'selenium-standalone', packageName: '@qavajs/service-selenium-standalone'},
-]
-
 export const modules: Array<ModuleDefinition> = [
     { module: 'template', packageName: '@qavajs/template'},
 ]

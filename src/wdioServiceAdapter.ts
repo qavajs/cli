@@ -1,3 +1,20 @@
+/**
+ * Adapter for wdio services.
+ * Service defintion may be string with module path or configuration tuple
+ * [modulePath, options, capabilities, config]
+ *
+ * @param {string | [string, object?, object?, object?]} serviceDefinition - wdio service with params
+ * @return {Service} - qavajs compatible service
+ * @example wdioService('@wdio/selenium-standalone-service')
+ * @example wdioService([
+ *      '@wdio/appium-service',
+ *      {
+ *          args: {
+ *              chromedriverExecutable: resolve('node_modules/chromedriver/lib/chromedriver/chromedriver.exe')
+ *          }
+ *      }
+ * ])
+ */
 export function wdioService(serviceDefinition: string | [string, object?, object?, object?]): Service {
     const [servicePath, options = {}, capabilities = {}, config = {}] = Array.isArray(serviceDefinition)
         ? serviceDefinition
