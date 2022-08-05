@@ -103,6 +103,7 @@ test('wdio install', async () => {
                 '  Scenario: Open qavajs docs\r',
                 '    Given I open \'https://qavajs.github.io/\' url\r',
                 '    When I click \'Get Started Button\'\r',
+                '    And I wait until \'Get Started Button\' to be invisible\r',
                 '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'\r',
                 '',
             ]),
