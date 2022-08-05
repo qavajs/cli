@@ -98,13 +98,13 @@ test('wdio install', async () => {
         [
             './features/qavajs.feature',
             multiline([
-                'Feature: qavajs framework\r',
-                '\r',
-                '  Scenario: Open qavajs docs\r',
-                '    Given I open \'https://qavajs.github.io/\' url\r',
-                '    When I click \'Get Started Button\'\r',
-                '    And I wait until \'Get Started Button\' to be invisible\r',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'\r',
+                'Feature: qavajs framework',
+                '',
+                '  Scenario: Open qavajs docs',
+                '    Given I open \'https://qavajs.github.io/\' url',
+                '    When I click \'Get Started Button\'',
+                '    And I wait until \'Get Started Button\' to be invisible',
+                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
                 '',
             ]),
             'utf-8'
