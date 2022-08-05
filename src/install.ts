@@ -65,7 +65,17 @@ export default async function install(): Promise<void> {
         .replace('<modules>', JSON.stringify(modulePackages))
         .replace('<parallel>', answers.parallel.toString())
 
+    await fs.ensureDir('./features');
+    await fs.ensureDir('./memory');
+    await fs.ensureDir('./report');
+
     if (isPOIncluded) {
+        const featureTemplate: string = await fs.readFile(
+            path.resolve(__dirname, '../templates/feature.template'),
+            'utf-8'
+        );
+        await fs.writeFile('./features/qavajs.feature', featureTemplate, 'utf-8');
+
         const pageObjectSnippet =
     `
         pageObject: new App(),
@@ -85,9 +95,6 @@ export default async function install(): Promise<void> {
         .replace(/\n\s+\n/g, '\n');
 
     await fs.writeFile('config.js', config, 'utf-8');
-    await fs.ensureDir('./features');
-    await fs.ensureDir('./memory');
-    await fs.ensureDir('./report');
 
     const memoryTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/memory.template'),

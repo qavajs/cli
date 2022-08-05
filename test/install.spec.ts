@@ -96,6 +96,19 @@ test('wdio install', async () => {
     // @ts-ignore
     expect(fs.writeFile.mock.calls).toEqual([
         [
+            './features/qavajs.feature',
+            multiline([
+                'Feature: qavajs framework\r',
+                '\r',
+                '  Scenario: Open qavajs docs\r',
+                '    Given I open \'https://qavajs.github.io/\' url\r',
+                '    When I click \'Get Started Button\'\r',
+                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'\r',
+                '',
+            ]),
+            'utf-8'
+        ],
+        [
             'config.js',
             multiline([
                 'const Memory = require("./memory");',
@@ -141,6 +154,7 @@ test('wdio install', async () => {
                 '',
                 'class App {',
                 '    Body = $("body");',
+                '    GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
                 '}',
                 '',
                 'module.exports = App;',
