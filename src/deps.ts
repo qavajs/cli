@@ -17,6 +17,8 @@ export const steps: Array<ModuleDefinition> = [
 
 export const format: Array<ModuleDefinition> = [
     { module: 'report-portal', packageName: '@qavajs/format-report-portal'},
+    { module: 'console', packageName: '@qavajs/console-formatter'},
+    { module: 'xunit', packageName: '@qavajs/xunit-formatter'},
 ]
 
 export const modules: Array<ModuleDefinition> = [
