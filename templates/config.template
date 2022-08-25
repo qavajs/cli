@@ -10,6 +10,7 @@ module.exports = {
         memory: new Memory(),
         <configPageObject>
         parallel: <parallel>,
+        <templates>
         publishQuiet: true
     }
 }

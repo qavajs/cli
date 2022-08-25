@@ -1,6 +1,5 @@
 export default [
     '@cucumber/cucumber',
-    '@qavajs/po',
     '@qavajs/memory'
 ]
 
@@ -23,5 +22,6 @@ export const format: Array<ModuleDefinition> = [
 
 export const modules: Array<ModuleDefinition> = [
     { module: 'template', packageName: '@qavajs/template'},
+    { module: 'soft-assertion', packageName: '@qavajs/soft-assertion'},
 ]
 
