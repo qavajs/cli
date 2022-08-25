@@ -72,9 +72,7 @@ export default async function install(): Promise<void> {
     await fs.ensureDir('./report');
 
     if (isPOIncluded) {
-        deps.push('@qavajs/po');
-        console.log(deps);
-        
+        deps.push('@qavajs/po');        
         const featureTemplate: string = await fs.readFile(
             path.resolve(__dirname, '../templates/feature.template'),
             'utf-8'
