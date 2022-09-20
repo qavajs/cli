@@ -67,7 +67,72 @@ test('minimum install', async () => {
     expect(yarnInstall.mock.calls).toEqual([
         [
             {
-                deps: ['@cucumber/cucumber', '@qavajs/po', '@qavajs/memory'],
+                deps: ['@cucumber/cucumber', '@qavajs/memory'],
+                respectNpm5: true,
+                cwd: process.cwd(),
+            }
+        ]
+    ])
+});
+
+test('template install', async () => {
+    // @ts-ignore
+    inquirer.prompt.mockResolvedValue({
+        steps: [],
+        formats: [],
+        modules: ['template'],
+        parallel: 1
+    });
+    // @ts-ignore
+    fs.readFile.mockImplementation(fsActual.readFile);
+    await install();
+    // @ts-ignore
+    expect(fs.ensureDir.mock.calls).toEqual([
+        ['./features'],
+        ['./memory'],
+        ['./report'],
+        ['./templates']
+    ]);
+    // @ts-ignore
+    expect(fs.writeFile.mock.calls).toEqual([
+        [
+            'config.js',
+            multiline([
+                'const Memory = require("./memory");',
+                'module.exports = {',
+                '    default: {',
+                '        paths: ["features/**/*.feature"],',
+                '        require: [],',
+                '        requireModule: ["@qavajs/template"],',
+                '        format: [],',
+                '        memory: new Memory(),',
+                '        parallel: 1,',
+                '        templates: ["templates/*.feature"],',
+                '        publishQuiet: true',
+                '    }',
+                '}',
+                ''
+            ]),
+            'utf-8'
+        ],
+        [
+            './memory/index.js',
+            multiline([
+                'class Constants {',
+                '',
+                '}',
+                '',
+                'module.exports = Constants;',
+                ''
+            ]),
+            'utf-8'
+        ]
+    ]);
+    // @ts-ignore
+    expect(yarnInstall.mock.calls).toEqual([
+        [
+            {
+                deps: ['@cucumber/cucumber', '@qavajs/memory', '@qavajs/template'],
                 respectNpm5: true,
                 cwd: process.cwd(),
             }
@@ -168,7 +233,7 @@ test('wdio install', async () => {
     expect(yarnInstall.mock.calls).toEqual([
         [
             {
-                deps: ['@cucumber/cucumber', '@qavajs/po', '@qavajs/memory', '@qavajs/steps-wdio'],
+                deps: ['@cucumber/cucumber', '@qavajs/memory', '@qavajs/po', '@qavajs/steps-wdio'],
                 respectNpm5: true,
                 cwd: process.cwd(),
             }

@@ -54,6 +54,8 @@ export default async function install(): Promise<void> {
     const modulePackages: Array<string> = packages(answers.modules, modules);
 
     const isPOIncluded: boolean = answers.steps.includes('wdio');
+    const isTemplateIncluded: boolean = answers.modules.includes('template');
+
     const configTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/config.template'),
         'utf-8'
@@ -70,6 +72,7 @@ export default async function install(): Promise<void> {
     await fs.ensureDir('./report');
 
     if (isPOIncluded) {
+        deps.push('@qavajs/po');        
         const featureTemplate: string = await fs.readFile(
             path.resolve(__dirname, '../templates/feature.template'),
             'utf-8'
@@ -88,6 +91,12 @@ export default async function install(): Promise<void> {
         config = config
             .replace('<importPageObject>', 'const App = require("./page_object");')
             .replace('<configPageObject>', pageObjectSnippet);
+    }
+
+    if (isTemplateIncluded) {
+        await fs.ensureDir('./templates');
+        config = config
+            .replace('<templates>', 'templates: ["templates/*.feature"],');
     }
 
     config = config
