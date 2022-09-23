@@ -11,6 +11,7 @@ declare global {
 const configPath = process.env.CONFIG as string;
 const profile = process.env.PROFILE as string;
 const config = require(path.join(process.cwd(), configPath))[profile];
+const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 setDefaultTimeout(config.defaultTimeout ?? 10000);
 
 /**
@@ -19,5 +20,5 @@ setDefaultTimeout(config.defaultTimeout ?? 10000);
 Before(async function () {
   global.config = config;
   memory.register(computed);
-  memory.register(config.memory ?? {});
+  memory.register(Object.assign(config.memory ?? {}, memoryValues));
 });

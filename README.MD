@@ -49,3 +49,12 @@ module.exports = {
 }
 ```
 
+### Override memory values
+In case if tests need to be run with updated memory value they can be passed via CLI (e.g run scenarios on some other url)
+It can be done by passing `--memory-values` parameter which is JSON with params that need to be overridden
+
+example
+
+```npx qavajs run --config config.js --memory-values '{"url": "https://github.com"}'``` 
+
+it will override $url memory value
