@@ -19,7 +19,8 @@ export default async function(): Promise<void> {
     }
     const options = {
         file: process.env.CONFIG,
-        provided: argv
+        provided: argv,
+        profiles: [process.env.PROFILE as string]
     }
     const { runConfiguration } = await loadConfiguration(options, environment);
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
