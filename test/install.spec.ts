@@ -3,6 +3,7 @@ import install from '../src/install';
 
 import inquirer from 'inquirer';
 import fs from 'fs-extra';
+// @ts-ignore
 import yarnInstall from 'yarn-install';
 
 jest.mock('inquirer');
