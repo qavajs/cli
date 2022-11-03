@@ -53,7 +53,13 @@ export default async function install(): Promise<void> {
     const formatPackages: Array<string> = packages(answers.formats, format);
     const modulePackages: Array<string> = packages(answers.modules, modules);
 
-    const isPOIncluded: boolean = answers.steps.includes('wdio');
+    const isWdioIncluded = answers.steps.includes('wdio');
+    const isPlaywrightIncluded = answers.steps.includes('playwright');
+    //checking if user selected only one browser driver
+    if (isPlaywrightIncluded && isWdioIncluded) {
+        throw new Error('Please select only one browser driver');
+    }
+    const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
     const configTemplate: string = await fs.readFile(
@@ -72,25 +78,34 @@ export default async function install(): Promise<void> {
     await fs.ensureDir('./report');
 
     if (isPOIncluded) {
-        deps.push('@qavajs/po');        
+        const poModule = isWdioIncluded ? '@qavajs/po' : '@qavajs/po-playwright';
+        deps.push(poModule);
         const featureTemplate: string = await fs.readFile(
             path.resolve(__dirname, '../templates/feature.template'),
             'utf-8'
         );
         await fs.writeFile('./features/qavajs.feature', featureTemplate, 'utf-8');
-
+        const browserName = isWdioIncluded ? 'chrome' : 'chromium';
         const pageObjectSnippet =
     `
         pageObject: new App(),
         browser: {
             capabilities: {
-                browserName: "chrome"
+                browserName: "${browserName}"
             }
         },
     `
         config = config
             .replace('<importPageObject>', 'const App = require("./page_object");')
             .replace('<configPageObject>', pageObjectSnippet);
+
+        //create page object folder
+        await fs.ensureDir('./page_object');
+        const poTemplate: string = await fs.readFile(
+            path.resolve(__dirname, '../templates/po.template'),
+            'utf-8'
+        );
+        await fs.writeFile('./page_object/index.js', poTemplate.replace('<poModule>', poModule), 'utf-8');
     }
 
     if (isTemplateIncluded) {
@@ -111,15 +126,6 @@ export default async function install(): Promise<void> {
     );
 
     await fs.writeFile('./memory/index.js', memoryTemplate, 'utf-8');
-
-    if (isPOIncluded) {
-        await fs.ensureDir('./page_object');
-        const poTemplate: string = await fs.readFile(
-            path.resolve(__dirname, '../templates/po.template'),
-            'utf-8'
-        );
-        await fs.writeFile('./page_object/index.js', poTemplate, 'utf-8');
-    }
 
     const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...modulePackages];
     console.log('installing packages...');
