@@ -2,7 +2,7 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  coveragePathIgnorePatterns: ["/lib/", "/node_modules/"],
+  coveragePathIgnorePatterns: ["/lib/", "/node_modules/", "/test/"],
   coverageThreshold: {
     global: {
       branches: 90,

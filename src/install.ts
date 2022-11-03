@@ -22,6 +22,7 @@ const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>
 }
 
 export default async function install(): Promise<void> {
+    const requiredDeps = [...deps];
     const answers = await inquirer.prompt([
         {
             type: 'checkbox',
@@ -79,7 +80,7 @@ export default async function install(): Promise<void> {
 
     if (isPOIncluded) {
         const poModule = isWdioIncluded ? '@qavajs/po' : '@qavajs/po-playwright';
-        deps.push(poModule);
+        requiredDeps.push(poModule);
         const featureTemplate: string = await fs.readFile(
             path.resolve(__dirname, '../templates/feature.template'),
             'utf-8'
@@ -127,7 +128,7 @@ export default async function install(): Promise<void> {
 
     await fs.writeFile('./memory/index.js', memoryTemplate, 'utf-8');
 
-    const modulesToInstall = [...deps, ...stepsPackages, ...formatPackages, ...modulePackages];
+    const modulesToInstall = [...requiredDeps, ...stepsPackages, ...formatPackages, ...modulePackages];
     console.log('installing packages...');
     console.log(modulesToInstall);
 
