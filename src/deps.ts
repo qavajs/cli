@@ -10,6 +10,7 @@ export type ModuleDefinition = {
 
 export const steps: Array<ModuleDefinition> = [
     { module: 'wdio', packageName: '@qavajs/steps-wdio'},
+    { module: 'playwright', packageName: '@qavajs/steps-playwright'},
     { module: 'api', packageName: '@qavajs/steps-api'},
     { module: 'memory', packageName: '@qavajs/steps-memory'},
 ]

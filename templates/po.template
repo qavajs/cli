@@ -1,4 +1,4 @@
-const { $, $$ } = require("@qavajs/po");
+const { $, $$ } = require("<poModule>");
 
 class App {
     Body = $("body");
