@@ -1,6 +1,7 @@
 ## 0.0.12
 
 - added playwright option
+- added computed to read environment variable
 
 ## 0.0.11
 
