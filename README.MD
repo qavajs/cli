@@ -58,3 +58,36 @@ example
 ```npx qavajs run --config config.js --memory-values '{"url": "https://github.com"}'``` 
 
 it will override $url memory value
+
+### Built-in computed
+@qavajs comes with a set of built-in computed
+
+`$file(path: string)` - read file as buffer
+```Gherkin
+Then I expect '$file("./path-to-file")' to be equal '$buffer'
+```
+
+`$textFile(path: string)` - read file as text (utf-8)
+```Gherkin
+Then I expect text of 'Some Element' to be equal '$textFile("./path-to-file")'
+```
+
+`$number(value: string)` - cast value to number
+```Gherkin
+Then I expect '$someNumberValue' to be equal '$number(42)'
+```
+
+`$boolean(value: string)` - cast value to boolean
+```Gherkin
+Then I expect '$someBooleanValue' to be equal '$boolean("true")'
+```
+
+`$string(value: string)` - cast value to string
+```Gherkin
+Then I expect '$someBooleanValue' to be equal '$string(42)'
+```
+
+`$env(variableName: string)` - read environment variable
+```Gherkin
+Then I open '$env("BASE_URL")' url
+```
