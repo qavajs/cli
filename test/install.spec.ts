@@ -19,7 +19,6 @@ test('minimum install', async () => {
         steps: [],
         formats: [],
         modules: [],
-        parallel: 1
     });
     // @ts-ignore
     fs.readFile.mockImplementation(fsActual.readFile);
@@ -43,7 +42,6 @@ test('minimum install', async () => {
                 '        requireModule: [],',
                 '        format: [],',
                 '        memory: new Memory(),',
-                '        parallel: 1,',
                 '        publishQuiet: true',
                 '    }',
                 '}',
@@ -82,7 +80,6 @@ test('template install', async () => {
         steps: [],
         formats: [],
         modules: ['template'],
-        parallel: 1
     });
     // @ts-ignore
     fs.readFile.mockImplementation(fsActual.readFile);
@@ -107,7 +104,6 @@ test('template install', async () => {
                 '        requireModule: ["@qavajs/template"],',
                 '        format: [],',
                 '        memory: new Memory(),',
-                '        parallel: 1,',
                 '        templates: ["templates/*.feature"],',
                 '        publishQuiet: true',
                 '    }',
@@ -147,7 +143,6 @@ test('wdio install', async () => {
         steps: ['wdio'],
         formats: [],
         modules: [],
-        parallel: 1
     });
     // @ts-ignore
     fs.readFile.mockImplementation(fsActual.readFile);
@@ -209,7 +204,6 @@ test('wdio install', async () => {
                 '                browserName: "chrome"',
                 '            }',
                 '        },',
-                '        parallel: 1,',
                 '        publishQuiet: true',
                 '    }',
                 '}',
@@ -248,7 +242,6 @@ test('playwright install', async () => {
         steps: ['playwright'],
         formats: [],
         modules: [],
-        parallel: 2
     });
     // @ts-ignore
     fs.readFile.mockImplementation(fsActual.readFile);
@@ -310,7 +303,6 @@ test('playwright install', async () => {
                 '                browserName: "chromium"',
                 '            }',
                 '        },',
-                '        parallel: 2,',
                 '        publishQuiet: true',
                 '    }',
                 '}',
@@ -349,7 +341,6 @@ test('package not found', async () => {
         steps: ['notFound'],
         formats: [],
         modules: [],
-        parallel: 1
     });
 
     await expect(install).rejects.toThrow('notFound module is not found');
@@ -361,7 +352,6 @@ test('both wdio and playwright selected', async () => {
         steps: ['wdio', 'playwright'],
         formats: [],
         modules: [],
-        parallel: 1
     });
 
     await expect(install).rejects.toThrow('Please select only one browser driver');

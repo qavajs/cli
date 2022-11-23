@@ -41,12 +41,6 @@ export default async function install(): Promise<void> {
             message: 'select formatters (reporters) to install:',
             name: 'formats',
             choices: packs(format)
-        },
-        {
-            type: 'number',
-            message: 'how many parallel instances to run?',
-            name: 'parallel',
-            default: 1
         }
     ]) as Answers;
 
@@ -71,8 +65,7 @@ export default async function install(): Promise<void> {
     let config: string = configTemplate
         .replace('<steps>', JSON.stringify([...stepsPackages].map(p => 'node_modules/' + p)))
         .replace('<format>', JSON.stringify(formatPackages))
-        .replace('<modules>', JSON.stringify(modulePackages))
-        .replace('<parallel>', answers.parallel.toString())
+        .replace('<modules>', JSON.stringify(modulePackages));
 
     await fs.ensureDir('./features');
     await fs.ensureDir('./memory');
