@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/@qavajs%2Fcli.svg)](https://badge.fury.io/js/@qavajs%2Fcli)
+
 ## @qavajs/cli
 
 Cli for @qavajs framework.
