@@ -1,7 +1,9 @@
-## 0.0.12
+## Current
 
 - added playwright option
 - added computed to read environment variable
+- added files option
+- removed parallel option
 
 ## 0.0.11
 

@@ -13,6 +13,7 @@ export const steps: Array<ModuleDefinition> = [
     { module: 'playwright', packageName: '@qavajs/steps-playwright'},
     { module: 'api', packageName: '@qavajs/steps-api'},
     { module: 'memory', packageName: '@qavajs/steps-memory'},
+    { module: 'files', packageName: '@qavajs/steps-files'},
 ]
 
 export const format: Array<ModuleDefinition> = [
