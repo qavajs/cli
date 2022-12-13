@@ -64,7 +64,11 @@ export default async function install(): Promise<void> {
 
     let config: string = configTemplate
         .replace('<steps>', JSON.stringify([...stepsPackages].map(p => 'node_modules/' + p)))
-        .replace('<format>', JSON.stringify(formatPackages))
+        .replace('<format>', JSON.stringify(
+            format
+                .filter(p => formatPackages.includes(p.packageName))
+                .map(p => p.packageName + (p.out ? `:${p.out}` : '')))
+        )
         .replace('<modules>', JSON.stringify(modulePackages));
 
     await fs.ensureDir('./features');
