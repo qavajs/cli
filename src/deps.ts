@@ -5,7 +5,8 @@ export default [
 
 export type ModuleDefinition = {
     module: string,
-    packageName: string
+    packageName: string,
+    out?: string
 }
 
 export const steps: Array<ModuleDefinition> = [
@@ -17,9 +18,10 @@ export const steps: Array<ModuleDefinition> = [
 ]
 
 export const format: Array<ModuleDefinition> = [
-    { module: 'report-portal', packageName: '@qavajs/format-report-portal'},
-    { module: 'console', packageName: '@qavajs/console-formatter'},
-    { module: 'xunit', packageName: '@qavajs/xunit-formatter'},
+    { module: 'report-portal', packageName: '@qavajs/format-report-portal', out: 'report/rp.out' },
+    { module: 'console', packageName: '@qavajs/console-formatter' },
+    { module: 'xunit', packageName: '@qavajs/xunit-formatter', out: 'report/report.xml' },
+    { module: 'html', packageName: '@qavajs/html-formatter', out: 'report/report.html' },
 ]
 
 export const modules: Array<ModuleDefinition> = [
