@@ -1,3 +1,6 @@
+## 0.0.14
+- added @qavajs/steps-sql
+
 ## 0.0.13
 - added @qavajs/html-formatter
 - added default out path for formatter packages

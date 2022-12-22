@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
