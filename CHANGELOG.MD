@@ -1,5 +1,6 @@
 ## 0.0.14
 - added @qavajs/steps-sql
+- added @qavajs/steps-accessibility
 
 ## 0.0.13
 - added @qavajs/html-formatter
