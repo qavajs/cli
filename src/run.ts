@@ -11,6 +11,7 @@ export default async function(): Promise<void> {
     const serviceHandler = new ServiceHandler(process.env.CONFIG as string, process.env.PROFILE as string);
     await serviceHandler.before();
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
+    argv.formatOptions = Object.assign({}, ...argv.formatOptions.map((option: string) => JSON.parse(option)));
     const environment = {
         cwd: process.cwd(),
         stdout: process.stdout,
