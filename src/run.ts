@@ -2,6 +2,14 @@ import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
 
+/**
+ * Merge json like params passed from CLI
+ * @param list
+ */
+function mergeJSONParams(list: string[]): Object {
+    return Object.assign({}, ...(list ?? []).map((option: string) => JSON.parse(option)));
+}
+
 export default async function(): Promise<void> {
     const { runCucumber, loadConfiguration } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
@@ -11,6 +19,8 @@ export default async function(): Promise<void> {
     const serviceHandler = new ServiceHandler(process.env.CONFIG as string, process.env.PROFILE as string);
     await serviceHandler.before();
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
+    argv.formatOptions = mergeJSONParams(argv.formatOptions);
+    argv.worldParameters = mergeJSONParams(argv.worldParameters);
     const environment = {
         cwd: process.cwd(),
         stdout: process.stdout,

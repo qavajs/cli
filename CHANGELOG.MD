@@ -1,3 +1,6 @@
+## 0.0.15
+- make qavajs cli compatible with cucumber cli
+
 ## 0.0.14
 - added @qavajs/steps-sql
 - added @qavajs/steps-accessibility
