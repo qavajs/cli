@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
+import importConfig from './importConfig';
 
 /**
  * Merge json like params passed from CLI
@@ -17,6 +18,8 @@ export default async function(): Promise<void> {
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
     const serviceHandler = new ServiceHandler(process.env.CONFIG as string, process.env.PROFILE as string);
+    const config = await importConfig(process.env.CONFIG as string, process.env.PROFILE as string);
+    process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10000;
     await serviceHandler.before();
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
     argv.formatOptions = mergeJSONParams(argv.formatOptions);

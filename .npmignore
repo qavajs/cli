@@ -1,4 +1,6 @@
 .github/
 node_modules/
 test/
+test-e2e-cjs/
+test-e2e-esm/
 report/
