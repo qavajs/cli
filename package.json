@@ -4,7 +4,7 @@
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
-    "test": "jest --coverage --resetMocks",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --resetMocks",
     "test:e2e:esm": "bin/qavajs.js run --config test-e2e-esm/config.js",
     "test:e2e:cjs": "bin/qavajs.js run --config test-e2e-cjs/config.js",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm"

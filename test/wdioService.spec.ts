@@ -10,8 +10,8 @@ declare type Service = {
     after: Function
 }
 
-test('adapt default service', () => {
-    const adaptedService = wdioService(resolve('test/mockService.ts')) as Service;
+test('adapt default service', async () => {
+    const adaptedService = await wdioService(resolve('test/mockService.ts')) as Service;
     expect(adaptedService.options).toEqual({});
     expect(adaptedService.capabilities).toEqual({});
     expect(adaptedService.config).toEqual({});
@@ -19,8 +19,8 @@ test('adapt default service', () => {
     expect(adaptedService.after()).toEqual({config: {}, capabilities: {}});
 });
 
-test('adapt configured service', () => {
-    const adaptedService = wdioService([
+test('adapt configured service', async () => {
+    const adaptedService = await wdioService([
         resolve('test/mockService.ts'),
         { option: 42 },
         { capability: 42 },
@@ -33,8 +33,8 @@ test('adapt configured service', () => {
     expect(adaptedService.after()).toEqual({config: { configValue: 42 }, capabilities: { capability: 42 }});
 });
 
-test('adapt configured service with option', () => {
-    const adaptedService = wdioService([
+test('adapt configured service with option', async () => {
+    const adaptedService = await wdioService([
         resolve('test/mockService.ts'),
         { option: 42 }
     ]) as Service;
@@ -45,8 +45,8 @@ test('adapt configured service with option', () => {
     expect(adaptedService.after()).toEqual({config: {}, capabilities: {}});
 });
 
-test('adapt configured service with option and capabilities', () => {
-    const adaptedService = wdioService([
+test('adapt configured service with option and capabilities', async () => {
+    const adaptedService = await wdioService([
         resolve('test/mockService.ts'),
         { option: 42 },
         { capability: 42 }
