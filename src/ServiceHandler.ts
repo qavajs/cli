@@ -1,49 +1,52 @@
 import path from 'path';
+import importConfig from './importConfig';
 
 export default class ServiceHandler {
-    private config: Config;
-    readonly services: Array<Service>;
+    private config: Promise<Config>;
+    readonly services: Promise<Array<Service>>;
     constructor(configPath: string, profile: string) {
-        this.config = require(path.join(process.cwd(), configPath))[profile];
+        this.config = importConfig(configPath, profile) as Promise<Config>;
         this.services = this.loadServices();
     }
 
-    loadServices() {
-        if (!this.config.service) return [];
-        return this.config.service.map(svc => {
+    async loadServices() {
+        const config = await this.config;
+        if (!config.service) return [];
+        const services = config.service.map(async svcDef => {
+            const svc = await svcDef;
             if (typeof svc === 'string') {
                 try {
-                    require.resolve(svc);
-                    return require(svc)
+                    return import(svc)
                 } catch (e) {
-                    return require(path.join(process.cwd(), svc))
+                    return import(path.join(process.cwd(), svc))
                 }
             }
             else if (Array.isArray(svc)) {
                 const [svcPath, options] = svc;
                 let service;
                 try {
-                    require.resolve(svcPath);
-                    service = require(svcPath)
+                    service = await import(svcPath)
                 } catch (e) {
-                    service = require(path.join(process.cwd(), svcPath))
+                    service = import(path.join(process.cwd(), svcPath))
                 }
                 service.options = options;
+                return service
             }
             else {
                 return svc
             }
-        })
+        });
+        return Promise.all(services);
     }
 
     async before() {
-        for (const svc of this.services) {
+        for (const svc of await this.services) {
             if (svc.before) return svc.before();
         }
     }
 
     async after() {
-        for (const svc of this.services) {
+        for (const svc of await this.services) {
             if (svc.after) return svc.after();
         }
     }

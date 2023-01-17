@@ -1,7 +1,7 @@
 import { Before, setDefaultTimeout } from '@cucumber/cucumber';
-import path from 'path';
 import memory from '@qavajs/memory';
 import computed from './computed';
+import importConfig from './importConfig';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -10,15 +10,16 @@ declare global {
 
 const configPath = process.env.CONFIG as string;
 const profile = process.env.PROFILE as string;
-const config = require(path.join(process.cwd(), configPath))[profile];
+const config = importConfig(configPath, profile);
 const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
-setDefaultTimeout(config.defaultTimeout ?? 10000);
 
 /**
  * Basic initialization hook
  */
 Before(async function () {
-  global.config = config;
+  global.config = await config;
   memory.register(computed);
-  memory.register(Object.assign(config.memory ?? {}, memoryValues));
+  memory.register(Object.assign(global.config.memory ?? {}, memoryValues));
 });
+
+setDefaultTimeout(parseInt(process.env.DEFAULT_TIMEOUT as string));

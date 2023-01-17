@@ -8,7 +8,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "outDir": "./lib",
     /* Specify an output folder for all emitted files. */
     "esModuleInterop": true,

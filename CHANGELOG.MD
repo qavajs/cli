@@ -1,3 +1,6 @@
+## 0.0.16
+- esm support
+
 ## 0.0.15
 - make qavajs cli compatible with cucumber cli
 
