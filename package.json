@@ -4,9 +4,9 @@
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --resetMocks",
-    "test:e2e:esm": "bin/qavajs.js run --config test-e2e-esm/config.js",
-    "test:e2e:cjs": "bin/qavajs.js run --config test-e2e-cjs/config.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --resetMocks",
+    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e-esm/config.js",
+    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e-cjs/config.js",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm"
   },
   "authors": [
