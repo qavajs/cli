@@ -1,4 +1,7 @@
-## 0.0.16
+## 0.0.18
+- added question to select commonjs / esm modules / typescript
+
+## 0.0.17
 - esm support
 
 ## 0.0.15
