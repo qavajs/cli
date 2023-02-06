@@ -23,7 +23,7 @@ const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>
         }) as Array<string>
 }
 
-const replaceNewLines = (text: string) => text.replace(/\n+/g, '\n');
+const replaceNewLines = (text: string) => text.replace(/(\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];

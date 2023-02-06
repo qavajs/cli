@@ -32,7 +32,7 @@
 <% }-%>
 <%-`export default {`%>
 <%-`  paths: ["features/**/*.feature"],`%>
-<%-`  require: `%><%-steps%>,
+<% if (moduleSystem === 'ES Modules') {%><%-`  import: `%><% } else { %><%-`  require: `%><% }-%><%-steps%>,
 <%-`  requireModule: `%><%-modules%>,
 <%-`  format: `%><%-format%>,
 <%-`  memory: new Memory()`%>,

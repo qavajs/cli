@@ -688,7 +688,7 @@ test('wdio with console formatter install es modules', async () => {
                 'import App from "./page_object";',
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
-                '  require: ["node_modules/@qavajs/steps-wdio"],',
+                '  import: ["node_modules/@qavajs/steps-wdio"],',
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
