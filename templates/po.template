@@ -1,8 +1,0 @@
-const { $, $$ } = require("<poModule>");
-
-class App {
-    Body = $("body");
-    GetStartedButton = $('a.button[href="/docs/intro"]');
-}
-
-module.exports = App;
