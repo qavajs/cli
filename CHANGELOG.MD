@@ -1,5 +1,6 @@
 ## 0.0.18
 - added question to select commonjs / esm modules / typescript
+- added json computed
 
 ## 0.0.17
 - esm support
