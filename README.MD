@@ -74,6 +74,11 @@ Then I expect '$file("./path-to-file")' to be equal '$buffer'
 Then I expect text of 'Some Element' to be equal '$textFile("./path-to-file")'
 ```
 
+`$json(path: string)` - read file as buffer
+```Gherkin
+Then I expect '$json("./path-to-file")' to be equal '$object'
+```
+
 `$number(value: string)` - cast value to number
 ```Gherkin
 Then I expect '$someNumberValue' to be equal '$number(42)'
