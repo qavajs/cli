@@ -19,8 +19,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@qavajs/soft-assertion": "^0.0.1",
-    "@qavajs/xunit-formatter": "^0.0.3",
     "chalk": "^4.1.2",
     "ejs": "^3.1.8",
     "fs-extra": "^11.1.0",
