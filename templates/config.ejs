@@ -26,9 +26,9 @@
 <%-`}`%>
 <% }-%>
 <% if (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') {-%>
-<%-`import Memory from "./memory";`-%>
+<%-`import Memory from "./memory`%><% if (moduleSystem === 'ES Modules') {%><%-'/index.js";'%><%} else {%><%-'";'%><%}%>
 <% if (isPlaywrightIncluded || isWdioIncluded) {%>
-<%-`import App from "./page_object";`%>
+<%-`import App from "./page_object`%><% if (moduleSystem === 'ES Modules') {%><%-'/index.js";'%><%} else {%><%-'";'%><%}%>
 <% }-%>
 <%-`export default {`%>
 <%-`  paths: ["features/**/*.feature"],`%>

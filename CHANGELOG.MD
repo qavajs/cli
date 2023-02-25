@@ -1,3 +1,6 @@
+## 0.0.19
+- fixed install path for esm and typescript
+
 ## 0.0.18
 - added question to select commonjs / esm modules / typescript
 - added json computed

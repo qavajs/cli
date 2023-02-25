@@ -172,7 +172,7 @@ test('wdio install', async () => {
                 'const { $, $$, Component } = require("@qavajs/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -264,7 +264,7 @@ test('wdio with html formatter install', async () => {
                 'const { $, $$, Component } = require("@qavajs/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 ''
             ]),
@@ -362,7 +362,7 @@ test('wdio with console formatter install', async () => {
                 'const { $, $$, Component } = require("@qavajs/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -460,7 +460,7 @@ test('playwright install', async () => {
                 'const { $, $$, Component } = require("@qavajs/po-playwright");',
                 'module.exports = class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -552,7 +552,7 @@ test('wdio and sql install', async () => {
                 'const { $, $$, Component } = require("@qavajs/po");',
                 'module.exports = class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -675,7 +675,7 @@ test('wdio with console formatter install es modules', async () => {
                 'import { $, $$, Component } from "@qavajs/po";',
                 'export default class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -684,8 +684,8 @@ test('wdio with console formatter install es modules', async () => {
         [
             'config.js',
             multiline([
-                'import Memory from "./memory";',
-                'import App from "./page_object";',
+                'import Memory from "./memory/index.js";',
+                'import App from "./page_object/index.js";',
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
                 '  import: ["node_modules/@qavajs/steps-wdio"],',
@@ -756,6 +756,25 @@ test('wdio with console formatter install typescript', async () => {
     // @ts-ignore
     expect(fs.writeFile.mock.calls).toEqual([
         [
+            './tsconfig.json',
+            multiline([
+                '{',
+                '  "compilerOptions": {',
+                '    "target": "es2016",',
+                '    "module": "commonjs",',
+                '    "moduleResolution": "node",',
+                '    "outDir": "./lib",',
+                '    "esModuleInterop": true,',
+                '    "forceConsistentCasingInFileNames": true,',
+                '    "strict": true,',
+                '    "skipLibCheck": true',
+                '  }',
+                '}',
+                ''
+            ]),
+            'utf-8'
+        ],
+        [
             './features/qavajs.feature',
             multiline([
                 'Feature: qavajs framework',
@@ -774,7 +793,7 @@ test('wdio with console formatter install typescript', async () => {
                 'import { $, $$, Component } from "@qavajs/po";',
                 'export default class App {',
                 '  Body = $("body");',
-                '  GetStartedButton = $(\'a.button[href="/docs/intro"]\');',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
                 '}',
                 '',
             ]),
@@ -821,6 +840,7 @@ test('wdio with console formatter install typescript', async () => {
                 deps: [
                     '@cucumber/cucumber',
                     '@qavajs/memory',
+                    'ts-node',
                     '@qavajs/po',
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
