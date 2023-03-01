@@ -72,6 +72,16 @@ export default async function install(): Promise<void> {
     const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
+    // add ts-node package if module system is typescript
+    // put tsconfig
+    if (isTypescript) {
+        requiredDeps.push('ts-node');
+        const tsconfig = await fs.readFile(
+            path.resolve(__dirname, '../templates/tsconfig.json'),
+            'utf-8'
+        );
+        await fs.writeFile(`./tsconfig.json`, tsconfig, 'utf-8');
+    }
     const configTemplate: string = await fs.readFile(
         path.resolve(__dirname, '../templates/config.ejs'),
         'utf-8'
@@ -146,4 +156,11 @@ export default async function install(): Promise<void> {
         cwd: process.cwd(),
         respectNpm5: true
     });
+
+    console.log('test script:');
+    if (isTypescript) {
+        console.log('npx ts-node --esm node_modules/.bin/qavajs run --config config.ts');
+    } else {
+        console.log('npx qavajs run --config config.js');
+    }
 }

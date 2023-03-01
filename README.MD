@@ -57,7 +57,7 @@ It can be done by passing `--memory-values` parameter which is JSON with params 
 
 example
 
-```npx qavajs run --config config.js --memory-values '{"url": "https://github.com"}'``` 
+```npx qavajs run --config config.ts --memory-values '{"url": "https://github.com"}'``` 
 
 it will override $url memory value
 
