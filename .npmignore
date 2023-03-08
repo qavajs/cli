@@ -3,4 +3,5 @@ node_modules/
 test/
 test-e2e-cjs/
 test-e2e-esm/
+test-e2e-ts/
 report/
