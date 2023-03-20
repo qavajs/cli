@@ -11,7 +11,8 @@
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm && npm run test:e2e:ts"
   },
   "authors": [
-    "Alexandr Galichenko"
+    "Alexandr Galichenko",
+    "Alexandr Legchilov"
   ],
   "main": "index.js",
   "bin": {
