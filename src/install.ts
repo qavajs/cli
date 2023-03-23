@@ -88,7 +88,7 @@ export default async function install(): Promise<void> {
     );
     const configEjs = ejs.compile(configTemplate);
     const config = configEjs({
-        steps: JSON.stringify([...stepsPackages].map(p => `node_modules/${p}`)),
+        steps: JSON.stringify([...stepsPackages].map(p => `node_modules/${p}/index.js`)),
         moduleSystem: answers.moduleSystem,
         modules: JSON.stringify(modulePackages),
         format: JSON.stringify(
