@@ -7,7 +7,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --resetMocks",
     "test:e2e:esm": "node bin/qavajs.js run --config test-e2e-esm/config.js",
     "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e-cjs/config.js",
-    "test:e2e:ts": "ts-node --esm bin/qavajs run --config test-e2e-ts/config.ts",
+    "test:e2e:ts": "ts-node --esm bin/qavajs.js run --config test-e2e-ts/config.ts",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm && npm run test:e2e:ts"
   },
   "authors": [
@@ -20,6 +20,9 @@
     "cucumber-js": "bin/qavajs.js"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "ejs": "^3.1.9",

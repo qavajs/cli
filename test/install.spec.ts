@@ -1,7 +1,9 @@
 import {test, jest} from '@jest/globals';
 import install from '../src/install';
 
+// @ts-ignore
 import inquirer from 'inquirer';
+// @ts-ignore
 import fs from 'fs-extra';
 // @ts-ignore
 import yarnInstall from 'yarn-install';
@@ -28,7 +30,8 @@ test('minimum install', async () => {
     expect(fs.ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
-        ['./report']
+        ['./report'],
+        ['./step_definition']
     ]);
     // @ts-ignore
     expect(fs.writeFile.mock.calls).toEqual([
@@ -39,7 +42,7 @@ test('minimum install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: [],',
+                '    require: ["step_definition/*.js"],',
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
@@ -88,6 +91,7 @@ test('template install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./templates']
     ]);
     // @ts-ignore
@@ -99,7 +103,7 @@ test('template install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: [],',
+                '    require: ["step_definition/*.js"],',
                 '    requireModule: ["@qavajs/template"],',
                 '    format: [],',
                 '    memory: new Memory(),',
@@ -149,6 +153,7 @@ test('wdio install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object']
     ]);
     // @ts-ignore
@@ -186,7 +191,7 @@ test('wdio install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-wdio/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-wdio/index.js"],',
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
@@ -241,6 +246,7 @@ test('wdio with html formatter install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object']
     ]);
     // @ts-ignore
@@ -278,7 +284,7 @@ test('wdio with html formatter install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-wdio/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-wdio/index.js"],',
                 '    requireModule: [],',
                 '    format: ["@qavajs/html-formatter:report/report.html"],',
                 '    memory: new Memory(),',
@@ -339,6 +345,7 @@ test('wdio with console formatter install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object']
     ]);
     // @ts-ignore
@@ -376,7 +383,7 @@ test('wdio with console formatter install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-wdio/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-wdio/index.js"],',
                 '    requireModule: [],',
                 '    format: ["@qavajs/console-formatter"],',
                 '    memory: new Memory(),',
@@ -437,6 +444,7 @@ test('playwright install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object']
     ]);
     // @ts-ignore
@@ -474,7 +482,7 @@ test('playwright install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-playwright/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-playwright/index.js"],',
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
@@ -529,6 +537,7 @@ test('wdio and sql install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object']
     ]);
     // @ts-ignore
@@ -566,7 +575,7 @@ test('wdio and sql install', async () => {
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["node_modules/@qavajs/steps-wdio/index.js","node_modules/@qavajs/steps-sql/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-wdio/index.js","node_modules/@qavajs/steps-sql/index.js"],',
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
@@ -651,6 +660,7 @@ test('wdio with console formatter install es modules', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object'],
         ['./templates']
     ]);
@@ -688,7 +698,7 @@ test('wdio with console formatter install es modules', async () => {
                 'import App from "./page_object/index.js";',
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
-                '  import: ["node_modules/@qavajs/steps-wdio/index.js"],',
+                '  import: ["step_definition/*.js","node_modules/@qavajs/steps-wdio/index.js"],',
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',
@@ -750,6 +760,7 @@ test('wdio with console formatter install typescript', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
+        ['./step_definition'],
         ['./page_object'],
         ['./templates']
     ]);
@@ -806,7 +817,7 @@ test('wdio with console formatter install typescript', async () => {
                 'import App from "./page_object";',
                 'export default {',
                 '  paths: ["features/**/*.feature"],',
-                '  require: ["node_modules/@qavajs/steps-wdio/index.js"],',
+                '  require: ["step_definition/*.ts","node_modules/@qavajs/steps-wdio/index.js"],',
                 '  requireModule: ["@qavajs/template"],',
                 '  format: ["@qavajs/console-formatter"],',
                 '  memory: new Memory(),',

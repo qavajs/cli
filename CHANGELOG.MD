@@ -1,5 +1,6 @@
 ## 0.0.20
 - fixed steps imports paths to import only main file
+- added local step_definition folder to install script
 
 ## 0.0.19
 - fixed install path for esm and typescript
