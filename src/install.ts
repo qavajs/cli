@@ -87,8 +87,10 @@ export default async function install(): Promise<void> {
         'utf-8'
     );
     const configEjs = ejs.compile(configTemplate);
+    const stepDefinitionGlob = `step_definition/*.${isTypescript ? 'ts' : 'js'}`;
+    const stepsPackagesGlobs = [...stepsPackages].map(p => `node_modules/${p}/index.js`);
     const config = configEjs({
-        steps: JSON.stringify([...stepsPackages].map(p => `node_modules/${p}/index.js`)),
+        steps: JSON.stringify([stepDefinitionGlob, ...stepsPackagesGlobs]),
         moduleSystem: answers.moduleSystem,
         modules: JSON.stringify(modulePackages),
         format: JSON.stringify(
@@ -104,6 +106,7 @@ export default async function install(): Promise<void> {
     await fs.ensureDir('./features');
     await fs.ensureDir('./memory');
     await fs.ensureDir('./report');
+    await fs.ensureDir('./step_definition');
 
     if (isPOIncluded) {
         const poModule = isWdioIncluded ? '@qavajs/po' : '@qavajs/po-playwright';
