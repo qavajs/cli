@@ -9,6 +9,11 @@ module.exports = {
         memory: new Memory(),
         defaultTimeout: 20000,
         parallel: 1,
-        publishQuiet: true
+        publishQuiet: true,
+        service: [{
+            after(result) {
+                console.log(result.success);
+            }
+        }]
     }
 }

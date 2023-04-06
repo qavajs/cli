@@ -1,4 +1,5 @@
 import Memory from './memory';
+import { IRunResult } from '@cucumber/cucumber/api';
 
 export default {
     paths: ['test-e2e-ts/features/*.feature'],
@@ -8,5 +9,10 @@ export default {
     memory: new Memory(),
     defaultTimeout: 20000,
     parallel: 1,
-    publishQuiet: true
+    publishQuiet: true,
+    service: [{
+        after(result: IRunResult) {
+            console.log(result.success);
+        }
+    }]
 }

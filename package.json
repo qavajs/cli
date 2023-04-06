@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/cli",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
@@ -32,8 +32,8 @@
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^9.0.1",
-    "@qavajs/memory": "^1.2.0",
+    "@cucumber/cucumber": "^9.1.0",
+    "@qavajs/memory": "^1.2.1",
     "@types/chai": "^4.3.4",
     "@types/ejs": "^3.1.2",
     "@types/fs-extra": "^11.0.1",
