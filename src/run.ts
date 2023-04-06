@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
+import {IRunResult} from '@cucumber/cucumber/api';
 
 /**
  * Merge json like params passed from CLI
@@ -37,6 +38,6 @@ export default async function(): Promise<void> {
     }
     const { runConfiguration } = await loadConfiguration(options, environment);
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
-    await runCucumber(runConfiguration, environment);
-    await serviceHandler.after();
+    const result: IRunResult = await runCucumber(runConfiguration, environment);
+    await serviceHandler.after(result);
 }
