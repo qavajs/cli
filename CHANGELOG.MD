@@ -1,3 +1,6 @@
+## 0.0.22
+- fixed support of multiple services
+
 ## 0.0.21
 - added capability handle cucumber result in services
 
