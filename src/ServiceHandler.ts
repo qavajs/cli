@@ -1,6 +1,6 @@
 import path from 'path';
 import importConfig from './importConfig';
-import {IRunResult} from '@cucumber/cucumber/api';
+import { IRunResult } from '@cucumber/cucumber/api';
 
 export default class ServiceHandler {
     private config: Promise<Config>;
@@ -42,13 +42,17 @@ export default class ServiceHandler {
 
     async before() {
         for (const svc of await this.services) {
-            if (svc.before) return svc.before();
+            if (svc.before) {
+                await svc.before();
+            }
         }
     }
 
     async after(result: IRunResult) {
         for (const svc of await this.services) {
-            if (svc.after) return svc.after(result);
+            if (svc.after) {
+                await svc.after(result);
+            }
         }
     }
 }
