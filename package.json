@@ -1,6 +1,6 @@
 {
   "name": "@qavajs/cli",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
@@ -14,7 +14,6 @@
     "Alexandr Galichenko",
     "Alexandr Legchilov"
   ],
-  "main": "index.js",
   "bin": {
     "qavajs": "bin/qavajs.js",
     "cucumber-js": "bin/qavajs.js"
