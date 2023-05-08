@@ -1,3 +1,8 @@
+## 0.0.23
+Breaking Change:
+- removed wdio service adapter 
+(adapter has been extracted to separate module https://www.npmjs.com/package/@qavajs/wdio-service-adapter)
+
 ## 0.0.22
 - fixed support of multiple services
 
