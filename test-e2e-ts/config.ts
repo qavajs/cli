@@ -2,7 +2,7 @@ import Memory from './memory';
 import { IRunResult } from '@cucumber/cucumber/api';
 
 export default {
-    paths: ['test-e2e-ts/features/*.feature'],
+    paths: ['test-e2e-features/*.feature'],
     import: [
         'test-e2e-ts/step_definitions/*.ts'
     ],

@@ -2,7 +2,7 @@ const Memory = require('./memory/index.js');
 
 module.exports = {
     default: {
-        paths: ['test-e2e-cjs/features/*.feature'],
+        paths: ['test-e2e-features/*.feature'],
         require: [
             'test-e2e-cjs/step_definitions/*.js'
         ],
