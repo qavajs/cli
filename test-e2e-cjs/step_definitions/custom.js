@@ -18,3 +18,10 @@ When('I verify that memory loaded', async function() {
     expect(memory.getValue('$customValue')).to.equal('cjs');
 });
 
+When('I verify that process env loaded', async function() {
+    expect(process.env.CONFIG).to.equal('test-e2e-cjs/config.js');
+    expect(process.env.PROFILE).to.equal('default');
+    expect(process.env.MEMORY_VALUES).to.equal('{}');
+    expect(process.env.CLI_ARGV).to.include('--qavaBoolean --qavaValue 42');
+    expect(process.env.DEFAULT_TIMEOUT).to.equal('20000');
+});

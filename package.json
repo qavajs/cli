@@ -5,9 +5,9 @@
   "scripts": {
     "build": "tsc",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --resetMocks",
-    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e-esm/config.js",
-    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e-cjs/config.js",
-    "test:e2e:ts": "ts-node --esm bin/qavajs.js run --config test-e2e-ts/config.ts",
+    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e-esm/config.js --qavaBoolean --qavaValue 42",
+    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e-cjs/config.js --qavaBoolean --qavaValue 42",
+    "test:e2e:ts": "ts-node --esm bin/qavajs.js run --config test-e2e-ts/config.ts --qavaBoolean --qavaValue 42",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm && npm run test:e2e:ts"
   },
   "authors": [
@@ -31,19 +31,19 @@
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^9.1.1",
-    "@qavajs/memory": "^1.2.1",
-    "@types/chai": "^4.3.4",
+    "@cucumber/cucumber": "^9.1.2",
+    "@qavajs/memory": "^1.3.0",
+    "@types/chai": "^4.3.5",
     "@types/ejs": "^3.1.2",
     "@types/fs-extra": "^11.0.1",
     "@types/inquirer": "^8.2.5",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.1",
     "@types/node": "^18.15.5",
-    "@types/yargs": "^17.0.23",
+    "@types/yargs": "^17.0.24",
     "chai": "^4.3.7",
     "jest": "^29.5.0",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   }
 }

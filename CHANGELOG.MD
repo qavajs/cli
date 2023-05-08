@@ -1,3 +1,6 @@
+## Unreleased
+- added capability to pass CLI params to child workers as environment variable
+
 ## 0.0.23
 Breaking Change:
 - removed wdio service adapter 

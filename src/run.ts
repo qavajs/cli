@@ -18,6 +18,7 @@ export default async function(): Promise<void> {
     process.env.CONFIG = argv.config ?? 'cucumber.js' ?? 'cucumber.json';
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
+    process.env.CLI_ARGV = process.argv.join(' ');
     const serviceHandler = new ServiceHandler(process.env.CONFIG as string, process.env.PROFILE as string);
     const config = await importConfig(process.env.CONFIG as string, process.env.PROFILE as string);
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10000;

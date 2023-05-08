@@ -39,6 +39,9 @@ Services is an entities that can execute logic before and after whole test run.
     }
 ```
 
+### Pass CLI params to workers
+All params that you passed to qavajs cli will be available in CLI_ARGV environment variable in all child workers.
+
 ### Built-in computed
 @qavajs comes with a set of built-in computed
 
