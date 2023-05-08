@@ -1,7 +1,6 @@
-## Unreleased
+## 0.0.23
 - added capability to pass CLI params to child workers as environment variable
 
-## 0.0.23
 Breaking Change:
 - removed wdio service adapter 
 (adapter has been extracted to separate module https://www.npmjs.com/package/@qavajs/wdio-service-adapter)
