@@ -21,6 +21,7 @@ test('minimum install', async () => {
         steps: [],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -81,6 +82,7 @@ test('template install', async () => {
         steps: [],
         formats: [],
         modules: ['template'],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -143,6 +145,7 @@ test('wdio install', async () => {
         steps: ['wdio'],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -236,6 +239,7 @@ test('wdio with html formatter install', async () => {
         steps: ['wdio'],
         formats: ['html'],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -335,6 +339,7 @@ test('wdio with console formatter install', async () => {
         steps: ['wdio'],
         formats: ['console'],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -434,6 +439,7 @@ test('playwright install', async () => {
         steps: ['playwright'],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -527,6 +533,7 @@ test('wdio and sql install', async () => {
         steps: ['wdio', 'sql'],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
@@ -626,6 +633,7 @@ test('package not found', async () => {
         steps: ['notFound'],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
 
@@ -638,6 +646,7 @@ test('both wdio and playwright selected', async () => {
         steps: ['wdio', 'playwright'],
         formats: [],
         modules: [],
+        additionalModules: [],
         moduleSystem: 'CommonJS'
     });
 
@@ -650,6 +659,7 @@ test('wdio with console formatter install es modules', async () => {
         steps: ['wdio'],
         formats: ['console'],
         modules: ['template'],
+        additionalModules: [],
         moduleSystem: 'ES Modules'
     });
     // @ts-ignore
@@ -750,6 +760,7 @@ test('wdio with console formatter install typescript', async () => {
         steps: ['wdio'],
         formats: ['console'],
         modules: ['template'],
+        additionalModules: [],
         moduleSystem: 'Typescript'
     });
     // @ts-ignore
@@ -856,6 +867,128 @@ test('wdio with console formatter install typescript', async () => {
                     '@qavajs/steps-wdio',
                     '@qavajs/console-formatter',
                     '@qavajs/template'
+                ],
+                respectNpm5: true,
+                cwd: process.cwd(),
+            }
+        ]
+    ])
+});
+
+test('wdio with console formatter and wdio service adapter install typescript', async () => {
+    // @ts-ignore
+    inquirer.prompt.mockResolvedValue({
+        steps: ['wdio'],
+        formats: ['console'],
+        modules: ['template'],
+        additionalModules: ['wdio service adapter'],
+        moduleSystem: 'Typescript'
+    });
+    // @ts-ignore
+    fs.readFile.mockImplementation(fsActual.readFile);
+    await install();
+    // @ts-ignore
+    expect(fs.ensureDir.mock.calls).toEqual([
+        ['./features'],
+        ['./memory'],
+        ['./report'],
+        ['./step_definition'],
+        ['./page_object'],
+        ['./templates']
+    ]);
+    // @ts-ignore
+    expect(fs.writeFile.mock.calls).toEqual([
+        [
+            './tsconfig.json',
+            multiline([
+                '{',
+                '  "compilerOptions": {',
+                '    "target": "es2016",',
+                '    "module": "commonjs",',
+                '    "moduleResolution": "node",',
+                '    "outDir": "./lib",',
+                '    "esModuleInterop": true,',
+                '    "forceConsistentCasingInFileNames": true,',
+                '    "strict": true,',
+                '    "skipLibCheck": true',
+                '  }',
+                '}',
+                ''
+            ]),
+            'utf-8'
+        ],
+        [
+            './features/qavajs.feature',
+            multiline([
+                'Feature: qavajs framework',
+                '  Scenario: Open qavajs docs',
+                '    Given I open \'https://qavajs.github.io/\' url',
+                '    When I click \'Get Started Button\'',
+                '    And I wait until \'Get Started Button\' to be invisible',
+                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '',
+            ]),
+            'utf-8'
+        ],
+        [
+            './page_object/index.ts',
+            multiline([
+                'import { $, $$, Component } from "@qavajs/po";',
+                'export default class App {',
+                '  Body = $("body");',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '}',
+                '',
+            ]),
+            'utf-8'
+        ],
+        [
+            'config.ts',
+            multiline([
+                'import Memory from "./memory";',
+                'import App from "./page_object";',
+                'export default {',
+                '  paths: ["features/**/*.feature"],',
+                '  require: ["step_definition/*.ts","node_modules/@qavajs/steps-wdio/index.js"],',
+                '  requireModule: ["@qavajs/template"],',
+                '  format: ["@qavajs/console-formatter"],',
+                '  memory: new Memory(),',
+                '  pageObject: new App(),',
+                '  browser: {',
+                '    capabilities: {',
+                '      browserName: "chrome"',
+                '    }',
+                '  },',
+                '  templates: ["templates/*.feature"],',
+                '  publishQuiet: true,',
+                '}',
+                ''
+            ]),
+            'utf-8'
+        ],
+        [
+            './memory/index.ts',
+            multiline([
+                'export default class Constants {',
+                '}',
+                '',
+            ]),
+            'utf-8'
+        ]
+    ]);
+    // @ts-ignore
+    expect(yarnInstall.mock.calls).toEqual([
+        [
+            {
+                deps: [
+                    '@cucumber/cucumber',
+                    '@qavajs/memory',
+                    'ts-node',
+                    '@qavajs/po',
+                    '@qavajs/steps-wdio',
+                    '@qavajs/console-formatter',
+                    '@qavajs/template',
+                    '@qavajs/wdio-service-adapter'
                 ],
                 respectNpm5: true,
                 cwd: process.cwd(),

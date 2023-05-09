@@ -2,13 +2,14 @@ import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
 import yarnInstall from 'yarn-install';
-import deps, {steps, format, modules, ModuleDefinition} from './deps';
+import deps, {steps, format, modules, additionalModules, ModuleDefinition} from './deps';
 import ejs from 'ejs';
 
 type Answers = {
     steps: Array<string>,
     formats: Array<string>,
     modules: Array<string>,
+    additionalModules: Array<string>,
     parallel: number,
     moduleSystem: string
 }
@@ -55,12 +56,19 @@ export default async function install(): Promise<void> {
             message: 'select formatters (reporters) to install:',
             name: 'formats',
             choices: packs(format)
-        }
+        },
+        {
+            type: 'checkbox',
+            message: 'select additional modules to install:',
+            name: 'additionalModules',
+            choices: packs(additionalModules)
+        },
     ]) as Answers;
 
     const stepsPackages: Array<string> = packages(answers.steps, steps);
     const formatPackages: Array<string> = packages(answers.formats, format);
     const modulePackages: Array<string> = packages(answers.modules, modules);
+    const additionalPackages: Array<string> = packages(answers.additionalModules, additionalModules);
 
     const isTypescript = answers.moduleSystem === 'Typescript';
     const isWdioIncluded = answers.steps.includes('wdio');
@@ -150,7 +158,13 @@ export default async function install(): Promise<void> {
 
     await fs.writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(memoryFile), 'utf-8');
 
-    const modulesToInstall = [...requiredDeps, ...stepsPackages, ...formatPackages, ...modulePackages];
+    const modulesToInstall = [
+        ...requiredDeps,
+        ...stepsPackages,
+        ...formatPackages,
+        ...modulePackages,
+        ...additionalPackages
+    ];
     console.log('installing packages...');
     console.log(modulesToInstall);
 
