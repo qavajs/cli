@@ -1,5 +1,6 @@
 ## 0.0.23
 - added capability to pass CLI params to child workers as environment variable
+- added new modules to wizard
 
 Breaking Change:
 - removed wdio service adapter 
