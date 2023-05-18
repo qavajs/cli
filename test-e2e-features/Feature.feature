@@ -8,3 +8,7 @@ Feature: Feature
 
   Scenario: verify process env
     When I verify that process env loaded
+
+  Scenario: verify overrides
+    Given I do test
+

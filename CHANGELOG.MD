@@ -1,3 +1,6 @@
+## 0.0.24
+- added util function to override step definition
+
 ## 0.0.23
 - added capability to pass CLI params to child workers as environment variable
 - added new modules to wizard
