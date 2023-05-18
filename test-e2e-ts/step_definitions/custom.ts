@@ -1,7 +1,12 @@
 import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import memory from '@qavajs/memory';
+import { Override } from '../../utils';
 When('I do test', async function() {});
+
+Override('I do test', async function() {
+    console.log('I am overridden')
+});
 
 When('I do smth async', async function() {
     await new Promise<void>(resolve => {

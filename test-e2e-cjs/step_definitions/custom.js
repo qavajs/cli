@@ -1,7 +1,11 @@
 const { When } = require('@cucumber/cucumber');
+const { Override } = require('../../utils');
 const { expect } = require('chai');
 const memory = require('@qavajs/memory');
 When('I do test', async function() {});
+Override('I do test', async function() {
+    console.log('I am overridden')
+});
 
 When('I do smth async', async function() {
     await new Promise(resolve => {
