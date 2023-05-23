@@ -1,3 +1,7 @@
+## 0.25.0
+- moved esm flag to tsconfig
+- moved tests to vitest
+
 ## 0.0.24
 - added util function to override step definition
 

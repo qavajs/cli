@@ -1,4 +1,4 @@
-import {test, jest} from '@jest/globals';
+import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
 
 // @ts-ignore
@@ -8,13 +8,16 @@ import fs from 'fs-extra';
 // @ts-ignore
 import yarnInstall from 'yarn-install';
 
-jest.mock('inquirer');
-jest.mock('fs-extra');
-jest.mock('yarn-install');
-const fsActual = jest.requireActual('fs-extra')
+vi.mock('inquirer');
+vi.mock('fs-extra');
+vi.mock('yarn-install');
+const fsActual = vi.importActual('fs-extra')
 
 const multiline = (lines: Array<string>) => lines.join('\n');
 
+beforeEach(() => {
+    vi.resetAllMocks();
+});
 test('minimum install', async () => {
     // @ts-ignore
     inquirer.prompt.mockResolvedValue({
@@ -25,7 +28,7 @@ test('minimum install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -86,7 +89,7 @@ test('template install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -149,7 +152,7 @@ test('wdio install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -243,7 +246,7 @@ test('wdio with html formatter install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -343,7 +346,7 @@ test('wdio with console formatter install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -443,7 +446,7 @@ test('playwright install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -537,7 +540,7 @@ test('wdio and sql install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -663,7 +666,7 @@ test('wdio with console formatter install es modules', async () => {
         moduleSystem: 'ES Modules'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -764,7 +767,7 @@ test('wdio with console formatter install typescript', async () => {
         moduleSystem: 'Typescript'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -790,6 +793,9 @@ test('wdio with console formatter install typescript', async () => {
                 '    "forceConsistentCasingInFileNames": true,',
                 '    "strict": true,',
                 '    "skipLibCheck": true',
+                '  },',
+                '  "ts-node": {',
+                '    "esm": true',
                 '  }',
                 '}',
                 ''
@@ -885,7 +891,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         moduleSystem: 'Typescript'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation(fsActual.readFile);
+    fs.readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
     expect(fs.ensureDir.mock.calls).toEqual([
@@ -911,6 +917,9 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '    "forceConsistentCasingInFileNames": true,',
                 '    "strict": true,',
                 '    "skipLibCheck": true',
+                '  },',
+                '  "ts-node": {',
+                '    "esm": true',
                 '  }',
                 '}',
                 ''

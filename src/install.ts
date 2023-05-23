@@ -176,7 +176,7 @@ export default async function install(): Promise<void> {
 
     console.log('test script:');
     if (isTypescript) {
-        console.log('npx ts-node --esm node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts');
+        console.log('npx ts-node node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts');
     } else {
         console.log('npx qavajs run --config config.js');
     }
