@@ -1,16 +1,23 @@
 import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
-
-// @ts-ignore
-import inquirer from 'inquirer';
-// @ts-ignore
-import fs from 'fs-extra';
-// @ts-ignore
+import { prompt } from 'inquirer';
+import { readFile, writeFile, ensureDir } from 'fs-extra';
 import yarnInstall from 'yarn-install';
 
-vi.mock('inquirer');
-vi.mock('fs-extra');
+vi.mock('inquirer', () => {
+    return {
+        prompt: vi.fn()
+    }
+});
+vi.mock('fs-extra', () => {
+    return {
+        readFile: vi.fn(),
+        writeFile: vi.fn(),
+        ensureDir: vi.fn()
+    }
+});
 vi.mock('yarn-install');
+
 const fsActual = vi.importActual('fs-extra')
 
 const multiline = (lines: Array<string>) => lines.join('\n');
@@ -19,8 +26,8 @@ beforeEach(() => {
     vi.resetAllMocks();
 });
 test('minimum install', async () => {
-    // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    //@ts-ignore
+    prompt.mockResolvedValue({
         steps: [],
         formats: [],
         modules: [],
@@ -28,17 +35,17 @@ test('minimum install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
         ['./step_definition']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             'config.js',
             multiline([
@@ -81,7 +88,7 @@ test('minimum install', async () => {
 
 test('template install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: [],
         formats: [],
         modules: ['template'],
@@ -89,10 +96,10 @@ test('template install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -100,7 +107,7 @@ test('template install', async () => {
         ['./templates']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             'config.js',
             multiline([
@@ -144,7 +151,7 @@ test('template install', async () => {
 
 test('wdio install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: [],
         modules: [],
@@ -152,10 +159,10 @@ test('wdio install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -163,7 +170,7 @@ test('wdio install', async () => {
         ['./page_object']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -238,7 +245,7 @@ test('wdio install', async () => {
 
 test('wdio with html formatter install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: ['html'],
         modules: [],
@@ -246,10 +253,10 @@ test('wdio with html formatter install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -257,7 +264,7 @@ test('wdio with html formatter install', async () => {
         ['./page_object']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -338,7 +345,7 @@ test('wdio with html formatter install', async () => {
 
 test('wdio with console formatter install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: ['console'],
         modules: [],
@@ -346,10 +353,10 @@ test('wdio with console formatter install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -357,7 +364,7 @@ test('wdio with console formatter install', async () => {
         ['./page_object']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -438,7 +445,7 @@ test('wdio with console formatter install', async () => {
 
 test('playwright install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['playwright'],
         formats: [],
         modules: [],
@@ -446,10 +453,10 @@ test('playwright install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -457,7 +464,7 @@ test('playwright install', async () => {
         ['./page_object']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -532,7 +539,7 @@ test('playwright install', async () => {
 
 test('wdio and sql install', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio', 'sql'],
         formats: [],
         modules: [],
@@ -540,10 +547,10 @@ test('wdio and sql install', async () => {
         moduleSystem: 'CommonJS'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -551,7 +558,7 @@ test('wdio and sql install', async () => {
         ['./page_object']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -632,7 +639,7 @@ test('wdio and sql install', async () => {
 
 test('package not found', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['notFound'],
         formats: [],
         modules: [],
@@ -645,7 +652,7 @@ test('package not found', async () => {
 
 test('both wdio and playwright selected', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio', 'playwright'],
         formats: [],
         modules: [],
@@ -658,7 +665,7 @@ test('both wdio and playwright selected', async () => {
 
 test('wdio with console formatter install es modules', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: ['console'],
         modules: ['template'],
@@ -666,10 +673,10 @@ test('wdio with console formatter install es modules', async () => {
         moduleSystem: 'ES Modules'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -678,7 +685,7 @@ test('wdio with console formatter install es modules', async () => {
         ['./templates']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './features/qavajs.feature',
             multiline([
@@ -759,7 +766,7 @@ test('wdio with console formatter install es modules', async () => {
 
 test('wdio with console formatter install typescript', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: ['console'],
         modules: ['template'],
@@ -767,10 +774,10 @@ test('wdio with console formatter install typescript', async () => {
         moduleSystem: 'Typescript'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -779,7 +786,7 @@ test('wdio with console formatter install typescript', async () => {
         ['./templates']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './tsconfig.json',
             multiline([
@@ -793,9 +800,6 @@ test('wdio with console formatter install typescript', async () => {
                 '    "forceConsistentCasingInFileNames": true,',
                 '    "strict": true,',
                 '    "skipLibCheck": true',
-                '  },',
-                '  "ts-node": {',
-                '    "esm": true',
                 '  }',
                 '}',
                 ''
@@ -883,7 +887,7 @@ test('wdio with console formatter install typescript', async () => {
 
 test('wdio with console formatter and wdio service adapter install typescript', async () => {
     // @ts-ignore
-    inquirer.prompt.mockResolvedValue({
+    prompt.mockResolvedValue({
         steps: ['wdio'],
         formats: ['console'],
         modules: ['template'],
@@ -891,10 +895,10 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         moduleSystem: 'Typescript'
     });
     // @ts-ignore
-    fs.readFile.mockImplementation((await fsActual).readFile);
+    readFile.mockImplementation((await fsActual).readFile);
     await install();
     // @ts-ignore
-    expect(fs.ensureDir.mock.calls).toEqual([
+    expect(ensureDir.mock.calls).toEqual([
         ['./features'],
         ['./memory'],
         ['./report'],
@@ -903,7 +907,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
         ['./templates']
     ]);
     // @ts-ignore
-    expect(fs.writeFile.mock.calls).toEqual([
+    expect(writeFile.mock.calls).toEqual([
         [
             './tsconfig.json',
             multiline([
@@ -917,9 +921,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '    "forceConsistentCasingInFileNames": true,',
                 '    "strict": true,',
                 '    "skipLibCheck": true',
-                '  },',
-                '  "ts-node": {',
-                '    "esm": true',
                 '  }',
                 '}',
                 ''
