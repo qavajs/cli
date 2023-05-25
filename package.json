@@ -5,9 +5,9 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest --coverage run",
-    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e-esm/config.js --qavaBoolean --qavaValue 42",
-    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e-cjs/config.js --qavaBoolean --qavaValue 42",
-    "test:e2e:ts": "ts-node bin/qavajs.js run --config test-e2e-ts/config.ts --qavaBoolean --qavaValue 42",
+    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e/esm/config.js --qavaBoolean --qavaValue 42",
+    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e/cjs/config.js --qavaBoolean --qavaValue 42",
+    "test:e2e:ts": "ts-node --project test-e2e/ts/tsconfig.json bin/qavajs.js run --config test-e2e/ts/config.ts --qavaBoolean --qavaValue 42",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm && npm run test:e2e:ts"
   },
   "authors": [

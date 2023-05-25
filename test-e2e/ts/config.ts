@@ -2,9 +2,9 @@ import Memory from './memory';
 import { IRunResult } from '@cucumber/cucumber/api';
 
 export default {
-    paths: ['test-e2e-features/*.feature'],
+    paths: ['test-e2e/features/*.feature'],
     require: [
-        'test-e2e-ts/step_definitions/*.ts'
+        'test-e2e/ts/step_definitions/*.ts'
     ],
     memory: new Memory(),
     defaultTimeout: 20000,

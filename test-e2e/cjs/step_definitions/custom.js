@@ -1,5 +1,5 @@
 const { When } = require('@cucumber/cucumber');
-const { Override } = require('../../utils');
+const { Override } = require('../../../utils');
 const { expect } = require('chai');
 const memory = require('@qavajs/memory');
 When('I do test', async function() {});
@@ -24,9 +24,19 @@ When('I verify that memory loaded', async function() {
 });
 
 When('I verify that process env loaded', async function() {
-    expect(process.env.CONFIG).to.equal('test-e2e-cjs/config.js');
+    expect(process.env.CONFIG).to.equal('test-e2e/cjs/config.js');
     expect(process.env.PROFILE).to.equal('default');
     expect(process.env.MEMORY_VALUES).to.equal('{}');
     expect(process.env.CLI_ARGV).to.include('--qavaBoolean --qavaValue 42');
     expect(process.env.DEFAULT_TIMEOUT).to.equal('20000');
+});
+
+When('I import cjs', async function() {
+    const module = require('../../modules/module.cjs');
+    expect(module()).to.equal(`I'm cjs`)
+});
+
+When('I import esm', async function() {
+    const module = (await import('../../modules/module.mjs')).default;
+    expect(module()).to.equal(`I'm esm`)
 });

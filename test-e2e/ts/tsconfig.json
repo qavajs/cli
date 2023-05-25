@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "outDir": "./lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowJs": true,
+    "types": [",../modules/module.d.ts"]
   }
 }
