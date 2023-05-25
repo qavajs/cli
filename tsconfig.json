@@ -10,7 +10,6 @@
     "module": "commonjs",
     "moduleResolution": "node16",
     "outDir": "./lib",
-    /* Specify an output folder for all emitted files. */
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

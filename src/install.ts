@@ -1,9 +1,9 @@
-import inquirer from 'inquirer';
-import fs from 'fs-extra';
-import path from 'path';
+import { prompt } from 'inquirer';
+import { readFile, writeFile, ensureDir } from 'fs-extra';
+import { resolve } from 'path';
 import yarnInstall from 'yarn-install';
 import deps, {steps, format, modules, additionalModules, ModuleDefinition} from './deps';
-import ejs from 'ejs';
+import { compile } from 'ejs';
 
 type Answers = {
     steps: Array<string>,
@@ -28,7 +28,7 @@ const replaceNewLines = (text: string) => text.replace(/(\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
-    const answers = await inquirer.prompt([
+    const answers = await prompt([
         {
             type: 'list',
             message: 'select module system you want to use:',
@@ -84,17 +84,17 @@ export default async function install(): Promise<void> {
     // put tsconfig
     if (isTypescript) {
         requiredDeps.push('ts-node');
-        const tsconfig = await fs.readFile(
-            path.resolve(__dirname, '../templates/tsconfig.json'),
+        const tsconfig = await readFile(
+            resolve(__dirname, '../templates/tsconfig.json'),
             'utf-8'
         );
-        await fs.writeFile(`./tsconfig.json`, tsconfig, 'utf-8');
+        await writeFile(`./tsconfig.json`, tsconfig, 'utf-8');
     }
-    const configTemplate: string = await fs.readFile(
-        path.resolve(__dirname, '../templates/config.ejs'),
+    const configTemplate: string = await readFile(
+        resolve(__dirname, '../templates/config.ejs'),
         'utf-8'
     );
-    const configEjs = ejs.compile(configTemplate);
+    const configEjs = compile(configTemplate);
     const stepDefinitionGlob = `step_definition/*.${isTypescript ? 'ts' : 'js'}`;
     const stepsPackagesGlobs = [...stepsPackages].map(p => `node_modules/${p}/index.js`);
     const config = configEjs({
@@ -111,52 +111,52 @@ export default async function install(): Promise<void> {
         isTemplateIncluded
     });
 
-    await fs.ensureDir('./features');
-    await fs.ensureDir('./memory');
-    await fs.ensureDir('./report');
-    await fs.ensureDir('./step_definition');
+    await ensureDir('./features');
+    await ensureDir('./memory');
+    await ensureDir('./report');
+    await ensureDir('./step_definition');
 
     if (isPOIncluded) {
         const poModule = isWdioIncluded ? '@qavajs/po' : '@qavajs/po-playwright';
         requiredDeps.push(poModule);
-        const featureTemplate: string = await fs.readFile(
-            path.resolve(__dirname, '../templates/feature.ejs'),
+        const featureTemplate: string = await readFile(
+            resolve(__dirname, '../templates/feature.ejs'),
             'utf-8'
         );
-        const featureEjs = ejs.compile(featureTemplate);
+        const featureEjs = compile(featureTemplate);
         const featureFile = featureEjs();
-        await fs.writeFile('./features/qavajs.feature', replaceNewLines(featureFile), 'utf-8');
+        await writeFile('./features/qavajs.feature', replaceNewLines(featureFile), 'utf-8');
 
         //create page object folder
-        await fs.ensureDir('./page_object');
-        const poTemplate: string = await fs.readFile(
-            path.resolve(__dirname, '../templates/po.ejs'),
+        await ensureDir('./page_object');
+        const poTemplate: string = await readFile(
+            resolve(__dirname, '../templates/po.ejs'),
             'utf-8'
         );
-        const poEjs = ejs.compile(poTemplate);
+        const poEjs = compile(poTemplate);
         const poFile = poEjs({
             moduleSystem: answers.moduleSystem,
             poModule
         })
-        await fs.writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(poFile), 'utf-8');
+        await writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(poFile), 'utf-8');
     }
 
     if (isTemplateIncluded) {
-        await fs.ensureDir('./templates');
+        await ensureDir('./templates');
     }
 
-    await fs.writeFile(`config.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(config), 'utf-8');
+    await writeFile(`config.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(config), 'utf-8');
 
-    const memoryTemplate: string = await fs.readFile(
-        path.resolve(__dirname, '../templates/memory.ejs'),
+    const memoryTemplate: string = await readFile(
+        resolve(__dirname, '../templates/memory.ejs'),
         'utf-8'
     );
-    const memoryEjs = ejs.compile(memoryTemplate);
+    const memoryEjs = compile(memoryTemplate);
     const memoryFile = memoryEjs({
         moduleSystem: answers.moduleSystem
     })
 
-    await fs.writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(memoryFile), 'utf-8');
+    await writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(memoryFile), 'utf-8');
 
     const modulesToInstall = [
         ...requiredDeps,
@@ -176,7 +176,7 @@ export default async function install(): Promise<void> {
 
     console.log('test script:');
     if (isTypescript) {
-        console.log('npx ts-node --esm node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts');
+        console.log('npx ts-node node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts');
     } else {
         console.log('npx qavajs run --config config.js');
     }
