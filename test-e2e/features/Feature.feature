@@ -12,3 +12,9 @@ Feature: Feature
   Scenario: verify overrides
     Given I do test
 
+  Scenario: import cjs
+    Given I import cjs
+
+  Scenario: import esm
+    Given I import esm
+

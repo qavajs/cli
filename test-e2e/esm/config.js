@@ -1,12 +1,11 @@
-import Memory from './memory';
-import { IRunResult } from '@cucumber/cucumber/api';
+import Memory from './memory/index.js';
 
 export default {
-    paths: ['test-e2e-features/*.feature'],
-    require: [
-        'test-e2e-ts/step_definitions/*.ts'
+    paths: ['test-e2e/features/*.feature'],
+    import: [
+        'test-e2e/esm/step_definitions/*.js'
     ],
-    memory: new Memory(),
+    memory: [new Memory(), {additionalValue: 12}],
     defaultTimeout: 20000,
     parallel: 1,
     publishQuiet: true,
@@ -18,7 +17,7 @@ export default {
         before() {
             console.log('service 2 started');
         },
-        after(result: IRunResult) {
+        after(result) {
             console.log(result.success);
         }
     }]
