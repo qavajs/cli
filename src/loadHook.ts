@@ -19,7 +19,8 @@ const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 Before(async function () {
   global.config = await config;
   memory.register(computed);
-  memory.register(Object.assign(global.config.memory ?? {}, memoryValues));
+  const memoryInstances = Array.isArray(global.config.memory ?? []) ? global.config.memory : [global.config.memory];
+  memory.register(Object.assign({}, ...memoryInstances, memoryValues));
 });
 
 setDefaultTimeout(parseInt(process.env.DEFAULT_TIMEOUT as string));

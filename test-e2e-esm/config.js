@@ -5,7 +5,7 @@ export default {
     import: [
         'test-e2e-esm/step_definitions/*.js'
     ],
-    memory: new Memory(),
+    memory: [new Memory(), {additionalValue: 12}],
     defaultTimeout: 20000,
     parallel: 1,
     publishQuiet: true,

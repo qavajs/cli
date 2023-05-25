@@ -6,7 +6,7 @@ module.exports = {
         require: [
             'test-e2e-cjs/step_definitions/*.js'
         ],
-        memory: new Memory(),
+        memory: [new Memory(), {additionalValue: 12}],
         defaultTimeout: 20000,
         parallel: 1,
         publishQuiet: true,
