@@ -1,7 +1,8 @@
 import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
 import { prompt } from 'inquirer';
-import { readFile, writeFile, ensureDir } from 'fs-extra';
+import { ensureDir } from 'fs-extra';
+import { readFile, writeFile } from 'fs/promises';
 import yarnInstall from 'yarn-install';
 
 vi.mock('inquirer', () => {
@@ -9,16 +10,20 @@ vi.mock('inquirer', () => {
         prompt: vi.fn()
     }
 });
-vi.mock('fs-extra', () => {
+vi.mock('fs/promises', () => {
     return {
         readFile: vi.fn(),
-        writeFile: vi.fn(),
+        writeFile: vi.fn()
+    }
+});
+vi.mock('fs-extra', () => {
+    return {
         ensureDir: vi.fn()
     }
 });
 vi.mock('yarn-install');
 
-const fsActual = vi.importActual('fs-extra')
+const fsActual = vi.importActual('fs/promises');
 
 const multiline = (lines: Array<string>) => lines.join('\n');
 
@@ -1000,6 +1005,100 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                     '@qavajs/template',
                     '@qavajs/wdio-service-adapter'
                 ],
+                respectNpm5: true,
+                cwd: process.cwd(),
+            }
+        ]
+    ])
+});
+
+test('testcafe install', async () => {
+    // @ts-ignore
+    prompt.mockResolvedValue({
+        steps: ['testcafe (experimental)'],
+        formats: [],
+        modules: [],
+        additionalModules: [],
+        moduleSystem: 'CommonJS'
+    });
+    // @ts-ignore
+    readFile.mockImplementation((await fsActual).readFile);
+    await install();
+    // @ts-ignore
+    expect(ensureDir.mock.calls).toEqual([
+        ['./features'],
+        ['./memory'],
+        ['./report'],
+        ['./step_definition'],
+        ['./page_object']
+    ]);
+    // @ts-ignore
+    expect(writeFile.mock.calls).toEqual([
+        [
+            './features/qavajs.feature',
+            multiline([
+                'Feature: qavajs framework',
+                '  Scenario: Open qavajs docs',
+                '    Given I open \'https://qavajs.github.io/\' url',
+                '    When I click \'Get Started Button\'',
+                '    And I wait until \'Get Started Button\' to be invisible',
+                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
+                '',
+            ]),
+            'utf-8'
+        ],
+        [
+            './page_object/index.js',
+            multiline([
+                'const { $, $$, Component } = require("@qavajs/po-testcafe");',
+                'module.exports = class App {',
+                '  Body = $("body");',
+                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
+                '}',
+                '',
+            ]),
+            'utf-8'
+        ],
+        [
+            'config.js',
+            multiline([
+                'const Memory = require("./memory");',
+                'const App = require("./page_object");',
+                'module.exports = {',
+                '  default: {',
+                '    paths: ["features/**/*.feature"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-testcafe/index.js"],',
+                '    requireModule: [],',
+                '    format: [],',
+                '    memory: new Memory(),',
+                '    pageObject: new App(),',
+                '    browser: {',
+                '      capabilities: {',
+                '        browserName: "chrome"',
+                '      }',
+                '    },',
+                '    publishQuiet: true,',
+                '  }',
+                '}',
+                ''
+            ]),
+            'utf-8'
+        ],
+        [
+            './memory/index.js',
+            multiline([
+                'module.exports = class Constants {',
+                '}',
+                '',
+            ]),
+            'utf-8'
+        ]
+    ]);
+    // @ts-ignore
+    expect(yarnInstall.mock.calls).toEqual([
+        [
+            {
+                deps: ['@cucumber/cucumber', '@qavajs/memory', '@qavajs/po-testcafe', '@qavajs/steps-testcafe'],
                 respectNpm5: true,
                 cwd: process.cwd(),
             }

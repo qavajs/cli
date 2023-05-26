@@ -17,11 +17,12 @@ export const steps: Array<ModuleDefinition> = [
     { module: 'files', packageName: '@qavajs/steps-files' },
     { module: 'sql', packageName: '@qavajs/steps-sql' },
     { module: 'accessibility', packageName: '@qavajs/steps-accessibility' },
-    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing' }
+    { module: 'visual testing', packageName: '@qavajs/steps-visual-testing' },
+    { module: 'testcafe (experimental)', packageName: '@qavajs/steps-testcafe' },
 ]
 
 export const format: Array<ModuleDefinition> = [
-    { module: 'report-portal', packageName: '@qavajs/format-report-portal', out: 'report/rp.out' },
+    { module: 'report portal', packageName: '@qavajs/format-report-portal', out: 'report/rp.out' },
     { module: 'console', packageName: '@qavajs/console-formatter' },
     { module: 'xunit', packageName: '@qavajs/xunit-formatter', out: 'report/report.xml' },
     { module: 'html', packageName: '@qavajs/html-formatter', out: 'report/report.html' },
