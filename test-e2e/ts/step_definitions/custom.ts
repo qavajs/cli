@@ -32,6 +32,7 @@ When('I verify that process env loaded', async function() {
     expect(process.env.MEMORY_VALUES).to.equal('{}');
     expect(process.env.CLI_ARGV).to.include('--qavaBoolean --qavaValue 42');
     expect(process.env.DEFAULT_TIMEOUT).to.equal('20000');
+    expect(process.env.CURRENT_SCENARIO_NAME).to.equal('verify process env');
 });
 
 When('I import cjs', async function() {
