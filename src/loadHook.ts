@@ -16,7 +16,8 @@ const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 /**
  * Basic initialization hook
  */
-Before(async function () {
+Before(async function (scenario) {
+  process.env.CURRENT_SCENARIO_NAME = scenario.pickle.name;
   global.config = await config;
   memory.register(computed);
   const memoryInstances = Array.isArray(global.config.memory ?? []) ? global.config.memory : [global.config.memory];
