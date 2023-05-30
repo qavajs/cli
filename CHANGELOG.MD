@@ -1,5 +1,6 @@
 ## 0.26.0
 - added experimental testcafe binding
+- added current scenario name as a process.env variable
 
 ## 0.25.0
 - added capability to pass multiple memory instances
