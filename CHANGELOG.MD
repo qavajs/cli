@@ -1,3 +1,6 @@
+## 0.26.0
+- added experimental testcafe binding
+
 ## 0.25.0
 - added capability to pass multiple memory instances
 - moved esm flag to tsconfig
