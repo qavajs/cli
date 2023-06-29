@@ -18,7 +18,8 @@ const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 Before({name: 'qavajs init'}, async function (scenario) {
   process.env.CURRENT_SCENARIO_NAME = scenario.pickle.name;
   global.config = await config;
-  const memoryInstances = Array.isArray(global.config.memory ?? []) ? global.config.memory : [global.config.memory];
+  global.config.memory = global.config.memory ?? [];
+  const memoryInstances = Array.isArray(global.config.memory) ? global.config.memory : [global.config.memory];
   memory.register(Object.assign({}, ...memoryInstances, memoryValues));
 });
 
