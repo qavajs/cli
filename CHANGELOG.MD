@@ -1,3 +1,7 @@
+## 0.27.0
+- removed built-in computed in favor of using $js()
+- made init hook named
+
 ## 0.26.0
 - added experimental testcafe binding
 - added current scenario name as an environment variable CURRENT_SCENARIO_NAME

@@ -22,7 +22,6 @@ When('I verify that config loaded', async function() {
 });
 
 When('I verify that memory loaded', async function() {
-    expect(memory.getValue('$number("42")')).to.equal(42);
     expect(memory.getValue('$customValue')).to.equal('esm');
 });
 
