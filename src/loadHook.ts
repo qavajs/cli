@@ -1,4 +1,4 @@
-import { Before, setDefaultTimeout } from '@cucumber/cucumber';
+import { Before, IWorld, setDefaultTimeout } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
 
@@ -15,11 +15,14 @@ const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 /**
  * Basic initialization hook
  */
-Before({name: 'qavajs init'}, async function (scenario) {
+Before({name: 'qavajs init'}, async function (this: IWorld, scenario) {
   process.env.CURRENT_SCENARIO_NAME = scenario.pickle.name;
   global.config = await config;
   global.config.memory = global.config.memory ?? [];
   const memoryInstances = Array.isArray(global.config.memory) ? global.config.memory : [global.config.memory];
+  if (memory.setLogger) {
+    memory.setLogger(this);
+  }
   memory.register(Object.assign({}, ...memoryInstances, memoryValues));
 });
 
