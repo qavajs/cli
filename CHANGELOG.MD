@@ -1,6 +1,7 @@
 ## 0.27.0
 - removed built-in computed in favor of using $js()
 - made init hook named
+- added memory logger
 
 ## 0.26.0
 - added experimental testcafe binding
