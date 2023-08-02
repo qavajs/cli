@@ -1,3 +1,6 @@
+## 0.28.0
+- added shard parameter
+
 ## 0.27.0
 - removed built-in computed in favor of using $js()
 - made init hook named

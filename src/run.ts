@@ -2,7 +2,7 @@ import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
-import {IRunResult} from '@cucumber/cucumber/api';
+import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
 
 /**
  * Merge json like params passed from CLI
@@ -13,7 +13,7 @@ function mergeJSONParams(list: string[]): Object {
 }
 
 export default async function(): Promise<void> {
-    const { runCucumber, loadConfiguration } = await import('@cucumber/cucumber/api');
+    const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
     process.env.CONFIG = argv.config ?? 'cucumber.js' ?? 'cucumber.json';
     process.env.PROFILE = argv.profile ?? 'default';
@@ -39,6 +39,12 @@ export default async function(): Promise<void> {
     }
     const { runConfiguration } = await loadConfiguration(options, environment);
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
+    if (argv.shard) {
+        const { plan } = await loadSources(runConfiguration.sources);
+        const [shard, totalShards] = argv.shard.split('/').map((val: string) => parseInt(val));
+        const names = plan.slice(shard - 1, shard - 1 + (plan.length / totalShards));
+        runConfiguration.sources.names = names.map((scenario: IPlannedPickle) => scenario.name);
+    }
     const result: IRunResult = await runCucumber(runConfiguration, environment);
     await serviceHandler.after(result);
 }
