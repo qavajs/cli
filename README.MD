@@ -28,15 +28,15 @@ it will override $url memory value
 Services is an entities that can execute logic before and after whole test run.
 
 ```javascript
-    module.exports = {
-        default: {
-            service: [{
-                after(result) {
-                    if (!result.success) process.exit(1);
-                }
-            }]
-        }
+module.exports = {
+    default: {
+        service: [{
+            after(result) {
+                if (!result.success) process.exit(1);
+            }
+        }]
     }
+}
 ```
 
 ### Pass CLI params to workers
