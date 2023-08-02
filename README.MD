@@ -52,3 +52,12 @@ Override('I do test', async function() {
     console.log('I am overridden')
 });
 ```
+
+### Test Sharding
+qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
+where x - current shard, y - total number of shards.
+
+```
+npx qavajs run --config config.js --shard 1/2
+npx qavajs run --config config.js --shard 2/2
+```
