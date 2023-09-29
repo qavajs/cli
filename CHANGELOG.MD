@@ -1,3 +1,6 @@
+## 0.29.0
+- upgrade shards chunking logic
+
 ## 0.28.0
 - added shard parameter
 
