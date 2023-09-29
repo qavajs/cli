@@ -41,9 +41,12 @@ export default async function(): Promise<void> {
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
     if (argv.shard) {
         const { plan } = await loadSources(runConfiguration.sources);
-        const [shard, totalShards] = argv.shard.split('/').map((val: string) => parseInt(val));
-        const names = plan.slice(shard - 1, shard - 1 + (plan.length / totalShards));
-        runConfiguration.sources.names = names.map((scenario: IPlannedPickle) => scenario.name);
+        const [ shard, totalShards ] = argv.shard.split('/').map((val: string) => parseInt(val));
+        const chunkLength = plan.length / totalShards;
+        const startIndex = Math.floor(shard * chunkLength - chunkLength);
+        const endIndex = totalShards/shard === 1 ? plan.length : chunkLength * shard;
+        const chunk = plan.slice(startIndex, endIndex);
+        runConfiguration.sources.names = chunk.map((scenario: IPlannedPickle) => scenario.name);
     }
     const result: IRunResult = await runCucumber(runConfiguration, environment);
     await serviceHandler.after(result);
