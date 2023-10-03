@@ -62,7 +62,6 @@ test('minimum install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -125,7 +124,6 @@ test('template install', async () => {
                 '    format: [],',
                 '    memory: new Memory(),',
                 '    templates: ["templates/*.feature"],',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -219,7 +217,6 @@ test('wdio install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -313,7 +310,6 @@ test('wdio with html formatter install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -413,7 +409,6 @@ test('wdio with console formatter install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -513,7 +508,6 @@ test('playwright install', async () => {
                 '        browserName: "chromium"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -607,7 +601,6 @@ test('wdio and sql install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -734,7 +727,6 @@ test('wdio with console formatter install es modules', async () => {
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -798,7 +790,7 @@ test('wdio with console formatter install typescript', async () => {
                 '{',
                 '  "compilerOptions": {',
                 '    "target": "es2016",',
-                '    "module": "commonjs",',
+                '    "module": "node16",',
                 '    "moduleResolution": "node16",',
                 '    "outDir": "./lib",',
                 '    "esModuleInterop": true,',
@@ -854,7 +846,6 @@ test('wdio with console formatter install typescript', async () => {
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -919,7 +910,7 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '{',
                 '  "compilerOptions": {',
                 '    "target": "es2016",',
-                '    "module": "commonjs",',
+                '    "module": "node16",',
                 '    "moduleResolution": "node16",',
                 '    "outDir": "./lib",',
                 '    "esModuleInterop": true,',
@@ -975,7 +966,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -1012,10 +1002,10 @@ test('wdio with console formatter and wdio service adapter install typescript', 
     ])
 });
 
-test('testcafe install', async () => {
+test('api install', async () => {
     // @ts-ignore
     prompt.mockResolvedValue({
-        steps: ['testcafe (experimental)'],
+        steps: ['api'],
         formats: [],
         modules: [],
         additionalModules: [],
@@ -1029,32 +1019,20 @@ test('testcafe install', async () => {
         ['./features'],
         ['./memory'],
         ['./report'],
-        ['./step_definition'],
-        ['./page_object']
+        ['./step_definition']
     ]);
     // @ts-ignore
     expect(writeFile.mock.calls).toEqual([
         [
-            './features/qavajs.feature',
+            './features/qavajsApi.feature',
             multiline([
                 'Feature: qavajs framework',
-                '  Scenario: Open qavajs docs',
-                '    Given I open \'https://qavajs.github.io/\' url',
-                '    When I click \'Get Started Button\'',
-                '    And I wait until \'Get Started Button\' to be invisible',
-                '    Then I expect text of \'Body\' to contain \'npm install @qavajs/cli\'',
-                '',
-            ]),
-            'utf-8'
-        ],
-        [
-            './page_object/index.js',
-            multiline([
-                'const { $, $$, Component } = require("@qavajs/po-testcafe");',
-                'module.exports = class App {',
-                '  Body = $("body");',
-                '  GetStartedButton = $("a.button[href=\'/docs/intro\']");',
-                '}',
+                '  Scenario: Request qavajs site',
+                '    When I create \'GET\' request \'request\'',
+                '    And I add \'https://qavajs.github.io/\' url to \'$request\'',
+                '    And I send \'$request\' request and save response as \'response\'',
+                '    And I parse \'$response\' body as text',
+                '    Then I expect \'$response.payload\' contains \'@qavajs\'',
                 '',
             ]),
             'utf-8'
@@ -1063,21 +1041,13 @@ test('testcafe install', async () => {
             'config.js',
             multiline([
                 'const Memory = require("./memory");',
-                'const App = require("./page_object");',
                 'module.exports = {',
                 '  default: {',
                 '    paths: ["features/**/*.feature"],',
-                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-testcafe/index.js"],',
+                '    require: ["step_definition/*.js","node_modules/@qavajs/steps-api/index.js"],',
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    pageObject: new App(),',
-                '    browser: {',
-                '      capabilities: {',
-                '        browserName: "chrome"',
-                '      }',
-                '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -1098,7 +1068,7 @@ test('testcafe install', async () => {
     expect(yarnInstall.mock.calls).toEqual([
         [
             {
-                deps: ['@cucumber/cucumber', '@qavajs/memory', '@qavajs/po-testcafe', '@qavajs/steps-testcafe'],
+                deps: ['@cucumber/cucumber', '@qavajs/memory', '@qavajs/steps-api'],
                 respectNpm5: true,
                 cwd: process.cwd(),
             }
