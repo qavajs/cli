@@ -74,12 +74,12 @@ export default async function install(): Promise<void> {
     const isTypescript = answers.moduleSystem === 'Typescript';
     const isWdioIncluded = answers.steps.includes('wdio');
     const isPlaywrightIncluded = answers.steps.includes('playwright');
-    const isTestCafeIncluded = answers.steps.includes('testcafe (experimental)');
+    const isApiIncluded = answers.steps.includes('api');
     //checking if user selected only one browser driver
     if (isPlaywrightIncluded && isWdioIncluded) {
         throw new Error('Please select only one browser driver');
     }
-    const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded || isTestCafeIncluded;
+    const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
     // add ts-node package if module system is typescript
@@ -110,7 +110,6 @@ export default async function install(): Promise<void> {
         ),
         isWdioIncluded,
         isPlaywrightIncluded,
-        isTestCafeIncluded,
         isTemplateIncluded
     });
 
@@ -123,7 +122,6 @@ export default async function install(): Promise<void> {
         let poModule: string | undefined;
         if (isWdioIncluded) poModule = '@qavajs/po';
         if (isPlaywrightIncluded) poModule = '@qavajs/po-playwright';
-        if (isTestCafeIncluded) poModule = '@qavajs/po-testcafe';
         if (!poModule) throw new Error('No PO module');
         requiredDeps.push(poModule);
         const featureTemplate: string = await readFile(
@@ -146,6 +144,16 @@ export default async function install(): Promise<void> {
             poModule
         })
         await writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(poFile), 'utf-8');
+    }
+
+    if (isApiIncluded) {
+        const featureTemplate: string = await readFile(
+            resolve(__dirname, '../templates/featureAPI.ejs'),
+            'utf-8'
+        );
+        const featureEjs = compile(featureTemplate);
+        const featureFile = featureEjs();
+        await writeFile('./features/qavajsApi.feature', replaceNewLines(featureFile), 'utf-8');
     }
 
     if (isTemplateIncluded) {

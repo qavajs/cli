@@ -1,3 +1,8 @@
+## 0.30.0
+- added api test example
+- removed xunit reporter from reporter lists
+- removed testcafe from steps list
+
 ## 0.29.0
 - upgrade shards chunking logic
 

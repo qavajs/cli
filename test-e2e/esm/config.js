@@ -8,7 +8,6 @@ export default {
     memory: [new Memory(), {additionalValue: 12}],
     defaultTimeout: 20000,
     parallel: 1,
-    publishQuiet: true,
     service: [{
         before() {
             console.log('service 1 started');
