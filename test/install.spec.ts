@@ -62,7 +62,6 @@ test('minimum install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -125,7 +124,6 @@ test('template install', async () => {
                 '    format: [],',
                 '    memory: new Memory(),',
                 '    templates: ["templates/*.feature"],',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -219,7 +217,6 @@ test('wdio install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -313,7 +310,6 @@ test('wdio with html formatter install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -413,7 +409,6 @@ test('wdio with console formatter install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -513,7 +508,6 @@ test('playwright install', async () => {
                 '        browserName: "chromium"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -607,7 +601,6 @@ test('wdio and sql install', async () => {
                 '        browserName: "chrome"',
                 '      }',
                 '    },',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
@@ -734,7 +727,6 @@ test('wdio with console formatter install es modules', async () => {
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -854,7 +846,6 @@ test('wdio with console formatter install typescript', async () => {
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -975,7 +966,6 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '    }',
                 '  },',
                 '  templates: ["templates/*.feature"],',
-                '  publishQuiet: true,',
                 '}',
                 ''
             ]),
@@ -1058,7 +1048,6 @@ test('api install', async () => {
                 '    requireModule: [],',
                 '    format: [],',
                 '    memory: new Memory(),',
-                '    publishQuiet: true,',
                 '  }',
                 '}',
                 ''
