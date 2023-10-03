@@ -148,7 +148,7 @@ export default async function install(): Promise<void> {
 
     if (isApiIncluded) {
         const featureTemplate: string = await readFile(
-            resolve(__dirname, '../templates/featureAPI.ejs'),
+            resolve(__dirname, '../templates/featureApi.ejs'),
             'utf-8'
         );
         const featureEjs = compile(featureTemplate);
