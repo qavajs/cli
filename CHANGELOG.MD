@@ -1,3 +1,6 @@
+## 0.30.1
+- fixed issue with mergable parameters
+
 ## 0.30.0
 - added api test example
 - removed xunit reporter from reporter lists
