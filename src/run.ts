@@ -8,8 +8,7 @@ import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
  * Merge json like params passed from CLI
  * @param list
  */
-function mergeJSONParams(list: string[]): Object | undefined {
-    if (!list) return;
+function mergeJSONParams(list: string[]): Object {
     return Object.assign({}, ...(list ?? []).map((option: string) => JSON.parse(option)));
 }
 
@@ -25,10 +24,8 @@ export default async function(): Promise<void> {
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10000;
     await serviceHandler.before();
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
-    argv.formatOptions = mergeJSONParams(argv.formatOptions);
-    argv.worldParameters = mergeJSONParams(argv.worldParameters);
-    if (!argv.formatOptions) delete argv.formatOptions;
-    if (!argv.worldParameters) delete argv.worldParameters;
+    if (argv.formatOptions) argv.formatOptions = mergeJSONParams(argv.formatOptions);
+    if (argv.worldParameters) argv.worldParameters = mergeJSONParams(argv.worldParameters);
     const environment = {
         cwd: process.cwd(),
         stdout: process.stdout,
