@@ -33,8 +33,7 @@ export default async function(): Promise<void> {
         env: process.env,
     }
     const options = {
-        file: process.env.CONFIG,
-        provided: argv,
+        provided: {...config, ...argv},
         profiles: [process.env.PROFILE as string]
     }
     const { runConfiguration } = await loadConfiguration(options, environment);
