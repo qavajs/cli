@@ -8,14 +8,15 @@ import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
  * Merge json like params passed from CLI
  * @param list
  */
-function mergeJSONParams(list: string[]): Object {
+function mergeJSONParams(list: string[]): Object | undefined {
+    if (!list) return;
     return Object.assign({}, ...(list ?? []).map((option: string) => JSON.parse(option)));
 }
 
 export default async function(): Promise<void> {
     const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
-    process.env.CONFIG = argv.config ?? 'cucumber.js' ?? 'cucumber.json';
+    process.env.CONFIG = argv.config ?? 'cucumber.js';
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
     process.env.CLI_ARGV = process.argv.join(' ');
@@ -26,6 +27,8 @@ export default async function(): Promise<void> {
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
     argv.formatOptions = mergeJSONParams(argv.formatOptions);
     argv.worldParameters = mergeJSONParams(argv.worldParameters);
+    if (!argv.formatOptions) delete argv.formatOptions;
+    if (!argv.worldParameters) delete argv.worldParameters;
     const environment = {
         cwd: process.cwd(),
         stdout: process.stdout,
