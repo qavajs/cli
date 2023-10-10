@@ -2,6 +2,7 @@
 - added api test example
 - removed xunit reporter from reporter lists
 - removed testcafe from steps list
+- added native support of ts
 
 ## 0.29.0
 - upgrade shards chunking logic

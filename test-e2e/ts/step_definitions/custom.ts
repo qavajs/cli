@@ -2,6 +2,7 @@ import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import memory from '@qavajs/memory';
 import { Override } from '../../../utils';
+//@ts-ignore
 import moduleCJS from '../../modules/module.cjs';
 
 When('I do test', async function() {});
@@ -39,6 +40,7 @@ When('I import cjs', async function() {
 });
 
 When('I import esm', async function() {
+    //@ts-ignore
     const moduleESM = await import('../../modules/module.mjs');
     expect(moduleESM.default()).to.equal(`I'm esm`);
 });
