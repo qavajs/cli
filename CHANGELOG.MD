@@ -1,3 +1,6 @@
+## 0.30.2
+- fixed issue with multiple instances of tags parameter
+
 ## 0.30.1
 - fixed issue with mergable parameters
 

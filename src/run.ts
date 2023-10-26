@@ -12,6 +12,14 @@ function mergeJSONParams(list: string[]): Object {
     return Object.assign({}, ...(list ?? []).map((option: string) => JSON.parse(option)));
 }
 
+/**
+ * merge multiple instances of tags params
+ * @param tags
+ */
+function mergeTags(tags: string[]) {
+    return tags.map((tag: string) => `(${tag})`).join(' and ');
+}
+
 export default async function(): Promise<void> {
     const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
@@ -26,6 +34,7 @@ export default async function(): Promise<void> {
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
     if (argv.formatOptions) argv.formatOptions = mergeJSONParams(argv.formatOptions);
     if (argv.worldParameters) argv.worldParameters = mergeJSONParams(argv.worldParameters);
+    if (argv.tags instanceof Array) argv.tags = mergeTags(argv.tags);
     const environment = {
         cwd: process.cwd(),
         stdout: process.stdout,

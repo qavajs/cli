@@ -1,3 +1,4 @@
+@one @two
 Feature: Feature
 
   Scenario: verify config
