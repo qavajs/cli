@@ -1,3 +1,7 @@
+## 0.31.0
+- added shard related environment variables
+- added loggin of total test cases to be executed
+
 ## 0.30.2
 - fixed issue with multiple instances of tags parameter
 

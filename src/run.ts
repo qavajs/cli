@@ -3,6 +3,7 @@ import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
 import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
+import chalk from 'chalk';
 
 /**
  * Merge json like params passed from CLI
@@ -48,14 +49,19 @@ export default async function(): Promise<void> {
     const { runConfiguration } = await loadConfiguration(options, environment);
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
     if (argv.shard) {
+        console.log(chalk.blue(`Shard: ${argv.shard}`));
         const { plan } = await loadSources(runConfiguration.sources);
         const [ shard, totalShards ] = argv.shard.split('/').map((val: string) => parseInt(val));
+        process.env.SHARD = shard;
+        process.env.TOTAL_SHARDS = totalShards;
         const chunkLength = plan.length / totalShards;
         const startIndex = Math.floor(shard * chunkLength - chunkLength);
         const endIndex = totalShards/shard === 1 ? plan.length : chunkLength * shard;
         const chunk = plan.slice(startIndex, endIndex);
         runConfiguration.sources.names = chunk.map((scenario: IPlannedPickle) => scenario.name);
     }
+    const { plan } = await loadSources(runConfiguration.sources);
+    console.log(chalk.blue(`Test Cases: ${plan.length}`));
     const result: IRunResult = await runCucumber(runConfiguration, environment);
     await serviceHandler.after(result);
 }
