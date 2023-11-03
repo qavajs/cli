@@ -14,7 +14,6 @@ When('I do smth async', async function() {
 });
 
 When('I verify that config loaded', async function() {
-    this.x = 22;
     await executeStep('I verify that memory loaded');
     expect(config.defaultTimeout).to.equal(20000);
 });
