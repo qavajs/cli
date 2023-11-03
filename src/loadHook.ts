@@ -1,6 +1,7 @@
 import { Before, IWorld, setDefaultTimeout } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
+import { bindWorld } from './utils';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -24,6 +25,7 @@ Before({name: 'qavajs init'}, async function (this: IWorld, scenario) {
     memory.setLogger(this);
   }
   memory.register(Object.assign({}, ...memoryInstances, memoryValues));
+  bindWorld(this);
 });
 
 setDefaultTimeout(parseInt(process.env.DEFAULT_TIMEOUT as string));

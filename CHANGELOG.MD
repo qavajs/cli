@@ -1,3 +1,15 @@
+## 0.32.0
+- added util function that allow to invoke step definitions from other step definitions
+```javascript
+const { executeStep } = require('@qavajs/cli/utils');
+
+When('I do smth complex', async function() {
+    await executeStep(`I type 'username' to 'Username Input'`);
+    await executeStep(`I type 'password' to 'Password Input'`);
+    await executeStep(`I click 'Login Button'`);
+});
+```
+
 ## 0.31.0
 - added shard related environment variables
 - added logging of total test cases to be executed

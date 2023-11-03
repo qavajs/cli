@@ -1,5 +1,5 @@
 const { When } = require('@cucumber/cucumber');
-const { Override } = require('../../../utils');
+const { Override, executeStep } = require('../../../utils');
 const { expect } = require('chai');
 const memory = require('@qavajs/memory');
 When('I do test', async function() {});
@@ -14,6 +14,8 @@ When('I do smth async', async function() {
 });
 
 When('I verify that config loaded', async function() {
+    this.x = 22;
+    await executeStep('I verify that memory loaded');
     expect(config.defaultTimeout).to.equal(20000);
 });
 
@@ -33,10 +35,19 @@ When('I verify that process env loaded', async function() {
 
 When('I import cjs', async function() {
     const module = require('../../modules/module.cjs');
-    expect(module()).to.equal(`I'm cjs`)
+    expect(module()).to.equal(`I'm cjs`);
 });
 
 When('I import esm', async function() {
     const module = (await import('../../modules/module.mjs')).default;
-    expect(module()).to.equal(`I'm esm`)
+    expect(module()).to.equal(`I'm esm`);
+});
+
+When('I execute composite step', async function () {
+    await executeStep('Nested step "42"');
+    expect(memory.getValue('$nestedValue')).to.equal('42');
+});
+
+When('Nested step {string}', async function(val) {
+    memory.setValue('nestedValue', val);
 });

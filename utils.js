@@ -1,4 +1,5 @@
-const { Override } = require('./lib/utils');
+const { Override, executeStep } = require('./lib/utils');
 module.exports = {
-    Override
+    Override,
+    executeStep
 }
