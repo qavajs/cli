@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import memory from '@qavajs/memory';
-import {executeStep, Override} from '../../../utils';
+import {Override} from '../../../utils';
 //@ts-ignore
 import moduleCJS from '../../modules/module.cjs';
 
@@ -46,7 +46,7 @@ When('I import esm', async function() {
 });
 
 When('I execute composite step', async function () {
-    await executeStep('Nested step "42"');
+    await this.executeStep('Nested step "42"');
     expect(memory.getValue('$nestedValue')).to.equal('42');
 });
 

@@ -4,9 +4,9 @@
 const { executeStep } = require('@qavajs/cli/utils');
 
 When('I do smth complex', async function() {
-    await executeStep(`I type 'username' to 'Username Input'`);
-    await executeStep(`I type 'password' to 'Password Input'`);
-    await executeStep(`I click 'Login Button'`);
+    await this.executeStep(`I type 'username' to 'Username Input'`);
+    await this.executeStep(`I type 'password' to 'Password Input'`);
+    await this.executeStep(`I click 'Login Button'`);
 });
 ```
 
