@@ -1,8 +1,6 @@
 ## 0.32.0
 - added util function that allow to invoke step definitions from other step definitions
 ```javascript
-const { executeStep } = require('@qavajs/cli/utils');
-
 When('I do smth complex', async function() {
     await this.executeStep(`I type 'username' to 'Username Input'`);
     await this.executeStep(`I type 'password' to 'Password Input'`);
