@@ -1,7 +1,6 @@
 import {Before, IWorld, setDefaultTimeout, supportCodeLibraryBuilder} from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
-import StepDefinition from '@cucumber/cucumber/lib/models/step_definition';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -18,9 +17,13 @@ export async function executeStep(this: any, text: string) {
   const steps = stepDefsLibrary.stepDefinitions.filter(s => s.matchesStepName(text));
   if (steps.length === 0) throw new Error(`Step "${text}" is not defined`);
   if (steps.length > 1) throw new Error(`"${text}" matches multiple step definitions`);
-  const step = steps.pop() as StepDefinition;
+  const step = steps.pop() as any;
   const { parameters } = await step.getInvocationParameters({ step: { text }, world: this } as any);
-  await step.code.apply(this, parameters);
+  try {
+    await step.code.apply(this, parameters);
+  } catch (err) {
+    throw new Error(`${text}\n${err}`);
+  }
 }
 
 /**
