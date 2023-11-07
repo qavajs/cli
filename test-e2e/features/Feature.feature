@@ -19,3 +19,6 @@ Feature: Feature
   Scenario: import esm
     Given I import esm
 
+  Scenario: execute composite step
+    Given I execute composite step
+

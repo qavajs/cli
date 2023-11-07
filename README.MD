@@ -61,3 +61,13 @@ where x - current shard, y - total number of shards.
 npx qavajs run --config config.js --shard 1/2
 npx qavajs run --config config.js --shard 2/2
 ```
+
+### Execute steps from other steps
+It is possible to implement complex logic using built-in qavajs steps via `executeStep` util function
+```javascript
+When('I do smth complex', async function() {
+    await this.executeStep(`I type 'username' to 'Username Input'`);
+    await this.executeStep(`I type 'password' to 'Password Input'`);
+    await this.executeStep(`I click 'Login Button'`);
+});
+```

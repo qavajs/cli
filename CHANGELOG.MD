@@ -1,3 +1,13 @@
+## 0.32.0
+- added util function that allow to invoke step definitions from other step definitions
+```javascript
+When('I do smth complex', async function() {
+    await this.executeStep(`I type 'username' to 'Username Input'`);
+    await this.executeStep(`I type 'password' to 'Password Input'`);
+    await this.executeStep(`I click 'Login Button'`);
+});
+```
+
 ## 0.31.0
 - added shard related environment variables
 - added logging of total test cases to be executed

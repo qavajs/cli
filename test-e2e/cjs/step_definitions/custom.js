@@ -33,10 +33,19 @@ When('I verify that process env loaded', async function() {
 
 When('I import cjs', async function() {
     const module = require('../../modules/module.cjs');
-    expect(module()).to.equal(`I'm cjs`)
+    expect(module()).to.equal(`I'm cjs`);
 });
 
 When('I import esm', async function() {
     const module = (await import('../../modules/module.mjs')).default;
-    expect(module()).to.equal(`I'm esm`)
+    expect(module()).to.equal(`I'm esm`);
+});
+
+When('I execute composite step', async function () {
+    await this.executeStep('Nested step "42"');
+    expect(memory.getValue('$nestedValue')).to.equal('42');
+});
+
+When('Nested step {string}', async function(val) {
+    memory.setValue('nestedValue', val);
 });
