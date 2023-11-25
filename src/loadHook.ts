@@ -1,4 +1,4 @@
-import {Before, IWorld, setDefaultTimeout, supportCodeLibraryBuilder} from '@cucumber/cucumber';
+import {Before, DataTable, IWorld, setDefaultTimeout, supportCodeLibraryBuilder} from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
 
@@ -12,7 +12,7 @@ const profile = process.env.PROFILE as string;
 const config = importConfig(configPath, profile);
 const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 
-export async function executeStep(this: any, text: string) {
+export async function executeStep(this: any, text: string, extraParam?: DataTable | string) {
   const stepDefsLibrary = supportCodeLibraryBuilder.buildStepDefinitions();
   const steps = stepDefsLibrary.stepDefinitions.filter(s => s.matchesStepName(text));
   if (steps.length === 0) throw new Error(`Step "${text}" is not defined`);
@@ -20,7 +20,7 @@ export async function executeStep(this: any, text: string) {
   const step = steps.pop() as any;
   const { parameters } = await step.getInvocationParameters({ step: { text }, world: this } as any);
   try {
-    await step.code.apply(this, parameters);
+    await step.code.apply(this, [...parameters, extraParam]);
   } catch (err) {
     throw new Error(`${text}\n${err}`);
   }

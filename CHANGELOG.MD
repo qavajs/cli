@@ -1,3 +1,13 @@
+## 0.32.1
+- introduced _IQavajsWorld_ describing added executeStep method 
+- added support of data tables and multiline params to executeStep
+Now it is possible to pass data table or multiline param as second parameter to executeStep method
+```javascript
+When('I do smth complex with data table', async function(dataTable) {
+    await this.executeStep(`I type 'username' to 'Username Input'`, dataTable);
+});
+```
+
 ## 0.32.0
 - added util function that allow to invoke step definitions from other step definitions
 ```javascript
