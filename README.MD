@@ -63,11 +63,15 @@ npx qavajs run --config config.js --shard 2/2
 ```
 
 ### Execute steps from other steps
-It is possible to implement complex logic using built-in qavajs steps via `executeStep` util function
+It is possible to implement complex logic using built-in qavajs steps via `executeStep` world method
 ```javascript
 When('I do smth complex', async function() {
     await this.executeStep(`I type 'username' to 'Username Input'`);
     await this.executeStep(`I type 'password' to 'Password Input'`);
     await this.executeStep(`I click 'Login Button'`);
+    await this.executeStep(`I fill following fields`, new DataTable([
+        [ 'Order', '123' ],
+        [ 'Delivery Location', 'New York' ]
+    ]))
 });
 ```
