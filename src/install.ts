@@ -1,10 +1,10 @@
-import { prompt } from 'inquirer';
 import { readFile, writeFile } from 'fs/promises';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import yarnInstall from 'yarn-install';
 import deps, {steps, format, modules, additionalModules, ModuleDefinition} from './deps';
 import { compile } from 'ejs';
+const inquirer = import('inquirer').then(m => m.default);
 
 type Answers = {
     steps: Array<string>,
@@ -29,6 +29,7 @@ const replaceNewLines = (text: string) => text.replace(/(\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
+    const { prompt } = await inquirer;
     const answers = await prompt([
         {
             type: 'list',

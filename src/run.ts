@@ -3,7 +3,7 @@ import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
 import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
-import chalk from 'chalk';
+const chalkModule = import('chalk').then(m => m.default);
 
 /**
  * Merge json like params passed from CLI
@@ -22,6 +22,7 @@ function mergeTags(tags: string[]) {
 }
 
 export default async function(): Promise<void> {
+    const chalk = await chalkModule;
     const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
     process.env.CONFIG = argv.config ?? 'cucumber.js';
