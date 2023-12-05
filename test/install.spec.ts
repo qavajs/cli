@@ -1,16 +1,19 @@
 import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
-import { prompt } from 'inquirer';
 import { ensureDir } from 'fs-extra';
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import yarnInstall from 'yarn-install';
 
+const inquirer = import('inquirer').then(m => m.default);
 vi.mock('inquirer', () => {
-    return {
-        prompt: vi.fn()
-    }
+    return Promise.resolve({
+        default: {
+            prompt: vi.fn()
+        }
+    })
 });
-vi.mock('fs/promises', () => {
+
+vi.mock('node:fs/promises', () => {
     return {
         readFile: vi.fn(),
         writeFile: vi.fn()
@@ -23,12 +26,14 @@ vi.mock('fs-extra', () => {
 });
 vi.mock('yarn-install');
 
-const fsActual = vi.importActual('fs/promises');
+const fsActual = vi.importActual('node:fs/promises');
 
 const multiline = (lines: Array<string>) => lines.join('\n');
 
-beforeEach(() => {
+let prompt: Function;
+beforeEach(async () => {
     vi.resetAllMocks();
+    prompt = (await inquirer).prompt;
 });
 test('minimum install', async () => {
     //@ts-ignore
