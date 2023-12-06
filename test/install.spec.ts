@@ -1,7 +1,8 @@
-import {test, beforeEach, vi, expect} from 'vitest';
+import { test, beforeEach, vi, expect } from 'vitest';
 import install from '../src/install';
 import { ensureDir } from 'fs-extra';
 import { readFile, writeFile } from 'node:fs/promises';
+// @ts-ignore
 import yarnInstall from 'yarn-install';
 
 const inquirer = import('inquirer').then(m => m.default);
