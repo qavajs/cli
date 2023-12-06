@@ -1,3 +1,6 @@
+## Unreleased
+- throw an error in case if config/profile is not found
+
 ## 0.32.1
 - introduced _IQavajsWorld_ describing added executeStep method 
 - added support of data tables and multiline params to executeStep

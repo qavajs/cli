@@ -2,7 +2,7 @@ import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
-import {IPlannedPickle, IRunResult} from '@cucumber/cucumber/api';
+import { IPlannedPickle, IRunResult } from '@cucumber/cucumber/api';
 const chalkModule = import('chalk').then(m => m.default);
 
 /**
