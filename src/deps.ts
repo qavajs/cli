@@ -17,6 +17,7 @@ export const steps: Array<ModuleDefinition> = [
     { module: 'files', packageName: '@qavajs/steps-files' },
     { module: 'sql', packageName: '@qavajs/steps-sql' },
     { module: 'accessibility', packageName: '@qavajs/steps-accessibility' },
+    { module: 'lighthouse', packageName: '@qavajs/steps-lighthouse' },
     { module: 'visual testing', packageName: '@qavajs/steps-visual-testing' }
 ]
 
