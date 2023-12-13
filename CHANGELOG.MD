@@ -1,3 +1,42 @@
+## Unreleased
+- throw an error in case if config/profile is not found
+
+## 0.32.1
+- introduced _IQavajsWorld_ describing added executeStep method 
+- added support of data tables and multiline params to executeStep
+Now it is possible to pass data table or multiline param as second parameter to executeStep method
+```javascript
+When('I do smth complex with data table', async function(dataTable) {
+    await this.executeStep(`I type 'username' to 'Username Input'`, dataTable);
+});
+```
+
+## 0.32.0
+- added util function that allow to invoke step definitions from other step definitions
+```javascript
+When('I do smth complex', async function() {
+    await this.executeStep(`I type 'username' to 'Username Input'`);
+    await this.executeStep(`I type 'password' to 'Password Input'`);
+    await this.executeStep(`I click 'Login Button'`);
+});
+```
+
+## 0.31.0
+- added shard related environment variables
+- added logging of total test cases to be executed
+
+## 0.30.2
+- fixed issue with multiple instances of tags parameter
+
+## 0.30.1
+- fixed issue with mergable parameters
+
+## 0.30.0
+- added api test example
+- removed xunit reporter from reporter lists
+- removed testcafe from steps list
+- added native support of ts
+
 ## 0.29.0
 - upgrade shards chunking logic
 

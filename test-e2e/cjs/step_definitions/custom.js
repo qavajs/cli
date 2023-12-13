@@ -1,4 +1,4 @@
-const { When } = require('@cucumber/cucumber');
+const { When, DataTable } = require('@cucumber/cucumber');
 const { Override } = require('../../../utils');
 const { expect } = require('chai');
 const memory = require('@qavajs/memory');
@@ -33,10 +33,26 @@ When('I verify that process env loaded', async function() {
 
 When('I import cjs', async function() {
     const module = require('../../modules/module.cjs');
-    expect(module()).to.equal(`I'm cjs`)
+    expect(module()).to.equal(`I'm cjs`);
 });
 
 When('I import esm', async function() {
     const module = (await import('../../modules/module.mjs')).default;
-    expect(module()).to.equal(`I'm esm`)
+    expect(module()).to.equal(`I'm esm`);
+});
+
+When('I execute composite step', async function () {
+    await this.executeStep('Nested step "42"');
+    const customDataTable = new DataTable([['1', '2', '3']])
+    await this.executeStep('Data table step:', customDataTable);
+    expect(memory.getValue('$nestedValue')).to.equal('42');
+    expect(memory.getValue('$dataTable')).to.deep.equal({ rawTable: [['1', '2', '3']]});
+});
+
+When('Nested step {string}', async function(val) {
+    memory.setValue('nestedValue', val);
+});
+
+When('Data table step:', function (dataTable) {
+    memory.setValue('dataTable', dataTable);
 });

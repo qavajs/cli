@@ -1,10 +1,10 @@
-import { prompt } from 'inquirer';
 import { readFile, writeFile } from 'fs/promises';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import yarnInstall from 'yarn-install';
 import deps, {steps, format, modules, additionalModules, ModuleDefinition} from './deps';
 import { compile } from 'ejs';
+const inquirer = import('inquirer').then(m => m.default);
 
 type Answers = {
     steps: Array<string>,
@@ -29,6 +29,7 @@ const replaceNewLines = (text: string) => text.replace(/(\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
+    const { prompt } = await inquirer;
     const answers = await prompt([
         {
             type: 'list',
@@ -74,12 +75,12 @@ export default async function install(): Promise<void> {
     const isTypescript = answers.moduleSystem === 'Typescript';
     const isWdioIncluded = answers.steps.includes('wdio');
     const isPlaywrightIncluded = answers.steps.includes('playwright');
-    const isTestCafeIncluded = answers.steps.includes('testcafe (experimental)');
+    const isApiIncluded = answers.steps.includes('api');
     //checking if user selected only one browser driver
     if (isPlaywrightIncluded && isWdioIncluded) {
         throw new Error('Please select only one browser driver');
     }
-    const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded || isTestCafeIncluded;
+    const isPOIncluded: boolean = isWdioIncluded || isPlaywrightIncluded;
     const isTemplateIncluded: boolean = answers.modules.includes('template');
 
     // add ts-node package if module system is typescript
@@ -110,7 +111,6 @@ export default async function install(): Promise<void> {
         ),
         isWdioIncluded,
         isPlaywrightIncluded,
-        isTestCafeIncluded,
         isTemplateIncluded
     });
 
@@ -123,7 +123,6 @@ export default async function install(): Promise<void> {
         let poModule: string | undefined;
         if (isWdioIncluded) poModule = '@qavajs/po';
         if (isPlaywrightIncluded) poModule = '@qavajs/po-playwright';
-        if (isTestCafeIncluded) poModule = '@qavajs/po-testcafe';
         if (!poModule) throw new Error('No PO module');
         requiredDeps.push(poModule);
         const featureTemplate: string = await readFile(
@@ -146,6 +145,16 @@ export default async function install(): Promise<void> {
             poModule
         })
         await writeFile(`./page_object/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(poFile), 'utf-8');
+    }
+
+    if (isApiIncluded) {
+        const featureTemplate: string = await readFile(
+            resolve(__dirname, '../templates/featureApi.ejs'),
+            'utf-8'
+        );
+        const featureEjs = compile(featureTemplate);
+        const featureFile = featureEjs();
+        await writeFile('./features/qavajsApi.feature', replaceNewLines(featureFile), 'utf-8');
     }
 
     if (isTemplateIncluded) {
@@ -182,9 +191,5 @@ export default async function install(): Promise<void> {
     });
 
     console.log('test script:');
-    if (isTypescript) {
-        console.log('npx ts-node node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts');
-    } else {
-        console.log('npx qavajs run --config config.js');
-    }
+    console.log(`npx qavajs run --config config.${isTypescript ? 'ts' : 'js'}`);
 }

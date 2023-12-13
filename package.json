@@ -1,13 +1,13 @@
 {
   "name": "@qavajs/cli",
-  "version": "0.29.0",
+  "version": "0.33.0",
   "description": "cli for qavajs framework",
   "scripts": {
     "build": "tsc",
     "test": "vitest --coverage run",
-    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e/esm/config.js --qavaBoolean --qavaValue 42",
-    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e/cjs/config.js --qavaBoolean --qavaValue 42",
-    "test:e2e:ts": "ts-node --project test-e2e/ts/tsconfig.json bin/qavajs.js run --config test-e2e/ts/config.ts --qavaBoolean --qavaValue 42",
+    "test:e2e:esm": "node bin/qavajs.js run --config test-e2e/esm/config.js --qavaBoolean --qavaValue 42 --tags @one --tags @two",
+    "test:e2e:cjs": "node bin/qavajs.js run --config test-e2e/cjs/config.js --qavaBoolean --qavaValue 42 --tags @one --tags @two",
+    "test:e2e:ts": "node bin/qavajs.js run --config test-e2e/ts/config.ts --qavaBoolean --qavaValue 42 --tags @one --tags @two",
     "test:e2e": "npm run test:e2e:cjs && npm run test:e2e:esm && npm run test:e2e:ts"
   },
   "authors": [
@@ -23,26 +23,26 @@
     "node": ">=16"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "ejs": "^3.1.9",
-    "fs-extra": "^11.1.1",
-    "inquirer": "^8.2.5",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.12",
     "yargs": "^17.7.2",
     "yarn-install": "^1.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^9.3.0",
-    "@qavajs/memory": "^1.6.1",
-    "@types/chai": "^4.3.5",
-    "@types/ejs": "^3.1.2",
-    "@types/fs-extra": "^11.0.1",
-    "@types/inquirer": "^8.2.5",
+    "@cucumber/cucumber": "^10.0.1",
+    "@qavajs/memory": "^1.6.2",
+    "@types/chai": "^4.3.11",
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.7",
     "@types/node": "^18.15.5",
-    "@types/yargs": "^17.0.24",
-    "@vitest/coverage-v8": "^0.33.0",
-    "chai": "^4.3.7",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
-    "vitest": "^0.34.1"
+    "@types/yargs": "^17.0.32",
+    "@vitest/coverage-v8": "^1.0.4",
+    "chai": "^4.3.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
   }
 }

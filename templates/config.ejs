@@ -1,6 +1,6 @@
 <% if (moduleSystem === 'CommonJS') {-%>
 <%-`const Memory = require("./memory");`%>
-<% if (isPlaywrightIncluded || isWdioIncluded || isTestCafeIncluded) {%>
+<% if (isPlaywrightIncluded || isWdioIncluded) {%>
 <%-`const App = require("./page_object");`%>
 <% }%>
 <%-`module.exports = {`%>
@@ -10,24 +10,23 @@
 <%-`    requireModule: `%><%-modules%>,
 <%-`    format: `%><%-format%>,
 <%-`    memory: new Memory()`%>,
-<% if (isPlaywrightIncluded || isWdioIncluded || isTestCafeIncluded) {%>
+<% if (isPlaywrightIncluded || isWdioIncluded) {%>
 <%-`    pageObject: new App()`%>,
 <%-`    browser: {`%>
 <%-`      capabilities: {`%>
-<%-`        browserName: `%><% if (isWdioIncluded || isTestCafeIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>
+<%-`        browserName: `%><% if (isWdioIncluded) {%><%-'"chrome"'%><%} else {%><%-'"chromium"'%><%}%>
 <%-`      }`%>
 <%-`    },`%>
 <% }%>
 <% if (isTemplateIncluded) {%>
 <%-`    templates: ["templates/*.feature"]`%>,
 <% }%>
-<%-`    publishQuiet: true,`%>
 <%-`  }`%>
 <%-`}`%>
 <% }-%>
 <% if (moduleSystem === 'ES Modules' || moduleSystem === 'Typescript') {-%>
 <%-`import Memory from "./memory`%><% if (moduleSystem === 'ES Modules') {%><%-'/index.js";'%><%} else {%><%-'";'%><%}%>
-<% if (isPlaywrightIncluded || isWdioIncluded || isTestCafeIncluded) {%>
+<% if (isPlaywrightIncluded || isWdioIncluded) {%>
 <%-`import App from "./page_object`%><% if (moduleSystem === 'ES Modules') {%><%-'/index.js";'%><%} else {%><%-'";'%><%}%>
 <% }-%>
 <%-`export default {`%>
@@ -36,7 +35,7 @@
 <%-`  requireModule: `%><%-modules%>,
 <%-`  format: `%><%-format%>,
 <%-`  memory: new Memory()`%>,
-<% if (isPlaywrightIncluded || isWdioIncluded || isTestCafeIncluded) {%>
+<% if (isPlaywrightIncluded || isWdioIncluded) {%>
 <%-`  pageObject: new App()`%>,
 <%-`  browser: {`%>
 <%-`    capabilities: {`%>
@@ -47,6 +46,5 @@
 <% if (isTemplateIncluded) {%>
 <%-`  templates: ["templates/*.feature"]`%>,
 <% }%>
-<%-`  publishQuiet: true,`%>
 <%-`}`%>
 <% }%>

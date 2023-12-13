@@ -1,8 +1,10 @@
-import { When } from '@cucumber/cucumber';
+import { DataTable, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import memory from '@qavajs/memory';
-import { Override } from '../../../utils';
+import {Override} from '../../../utils';
+//@ts-ignore
 import moduleCJS from '../../modules/module.cjs';
+import { IQavajsWorld } from '../../../index';
 
 When('I do test', async function() {});
 
@@ -39,6 +41,23 @@ When('I import cjs', async function() {
 });
 
 When('I import esm', async function() {
+    //@ts-ignore
     const moduleESM = await import('../../modules/module.mjs');
     expect(moduleESM.default()).to.equal(`I'm esm`);
+});
+
+When('I execute composite step', async function (this: IQavajsWorld) {
+    await this.executeStep('Nested step "42"');
+    const customDataTable = new DataTable([['1', '2', '3']])
+    await this.executeStep('Data table step:', customDataTable);
+    expect(memory.getValue('$nestedValue')).to.equal('42');
+    expect(memory.getValue('$dataTable')).to.deep.equal({ rawTable: [['1', '2', '3']]});
+});
+
+When('Nested step {string}', async function(val) {
+    memory.setValue('nestedValue', val);
+});
+
+When('Data table step:', function (dataTable) {
+    memory.setValue('dataTable', dataTable);
 });

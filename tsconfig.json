@@ -7,7 +7,7 @@
   ],
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",
+    "module": "node16",
     "moduleResolution": "node16",
     "outDir": "./lib",
     "esModuleInterop": true,
