@@ -21,8 +21,14 @@ export default async function(): Promise<void> {
     process.env.CLI_ARGV = process.argv.join(' ');
     const serviceHandler = new ServiceHandler(process.env.CONFIG as string, process.env.PROFILE as string);
     const config = await importConfig(process.env.CONFIG as string, process.env.PROFILE as string);
+    const serviceTimeout = config.serviceTimeout || 600000
+    const timeoutMessage = `Service timeout '${serviceTimeout}' ms exceeded`;
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10000;
-    await serviceHandler.before();
+    await Promise.race([
+        // @ts-ignore
+        new Promise((_, reject) => setTimeout(reject(new Error(timeoutMessage)), serviceTimeout)),
+        await serviceHandler.before()
+    ])
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
     argv.formatOptions = mergeJSONParams(argv.formatOptions);
     argv.worldParameters = mergeJSONParams(argv.worldParameters);
@@ -49,5 +55,9 @@ export default async function(): Promise<void> {
         runConfiguration.sources.names = chunk.map((scenario: IPlannedPickle) => scenario.name);
     }
     const result: IRunResult = await runCucumber(runConfiguration, environment);
-    await serviceHandler.after(result);
+    await Promise.race([
+        // @ts-ignore
+        new Promise((_, reject) => setTimeout(reject(new Error(timeoutMessage)), serviceTimeout)),
+        await serviceHandler.after(result)
+        ])
 }

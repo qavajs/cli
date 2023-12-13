@@ -20,5 +20,6 @@ export default {
         after(result) {
             console.log(result.success);
         }
-    }]
+    }],
+    serviceTimeout: 30000
 }
