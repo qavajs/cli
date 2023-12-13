@@ -1,4 +1,9 @@
-## Unreleased
+## 33.1
+- add timeout to before and after services 
+
+## 33.0
+- bump inquirer and chalk versions
+- added lighthouse package
 - throw an error in case if config/profile is not found
 
 ## 0.32.1
