@@ -74,5 +74,5 @@ export default async function(): Promise<void> {
         // @ts-ignore
         new Promise((_, reject) => setTimeout(reject(new Error(timeoutMessage)), serviceTimeout)),
         await serviceHandler.after(result)
-        ])
+    ])
 }
