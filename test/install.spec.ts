@@ -1,7 +1,7 @@
-import { test, beforeEach, vi, expect } from 'vitest';
+import {test, beforeEach, vi, expect} from 'vitest';
 import install from '../src/install';
-import { ensureDir } from 'fs-extra';
-import { readFile, writeFile } from 'node:fs/promises';
+import {ensureDir} from 'fs-extra';
+import {readFile, writeFile} from 'node:fs/promises';
 // @ts-ignore
 import yarnInstall from 'yarn-install';
 
@@ -82,7 +82,32 @@ test('minimum install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -144,7 +169,32 @@ test('template install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -237,7 +287,32 @@ test('wdio install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -330,7 +405,32 @@ test('wdio with html formatter install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -429,7 +529,32 @@ test('wdio with console formatter install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -528,7 +653,32 @@ test('playwright install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -621,7 +771,32 @@ test('wdio and sql install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -746,7 +921,32 @@ test('wdio with console formatter install es modules', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -865,7 +1065,32 @@ test('wdio with console formatter install typescript', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.ts',
+                '```',
+                '## Project Structure',
+                '- [config](./config.ts) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -985,7 +1210,32 @@ test('wdio with console formatter and wdio service adapter install typescript', 
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.ts',
+                '```',
+                '## Project Structure',
+                '- [config](./config.ts) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([
@@ -1068,7 +1318,32 @@ test('api install', async () => {
                 '',
             ]),
             'utf-8'
-        ]
+        ],
+        [
+            './README.MD',
+            multiline([
+                '# qavajs',
+                '## Docs',
+                'https://qavajs.github.io/docs/intro',
+                '## Install Modules',
+                '```bash',
+                'npm install',
+                '```',
+                '## Execute Tests',
+                '```bash',
+                'npx qavajs run --config config.js',
+                '```',
+                '## Project Structure',
+                '- [config](./config.js) - main config',
+                '- [features](./features) - test cases',
+                '- [memory](./memory) - test data',
+                '- [page_object](./page_object) - page objects',
+                '- [step_definitions](./step_definitions) - project specific step definitions',
+                '- [report](./report) - reports',
+                ''
+            ]),
+            'utf-8'
+        ],
     ]);
     // @ts-ignore
     expect(yarnInstall.mock.calls).toEqual([

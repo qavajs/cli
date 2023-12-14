@@ -25,7 +25,7 @@ const packages = (moduleList: Array<string>, packageMap: Array<ModuleDefinition>
         }) as Array<string>
 }
 
-const replaceNewLines = (text: string) => text.replace(/(\n\r?)+/g, '\n');
+const replaceNewLines = (text: string) => text.replace(/(\r?\n\r?)+/g, '\n');
 
 export default async function install(): Promise<void> {
     const requiredDeps = [...deps];
@@ -173,6 +173,17 @@ export default async function install(): Promise<void> {
     })
 
     await writeFile(`./memory/index.${isTypescript ? 'ts' : 'js'}`, replaceNewLines(memoryFile), 'utf-8');
+
+    const readmeTemplate: string = await readFile(
+        resolve(__dirname, '../templates/readme.ejs'),
+        'utf-8'
+    );
+    const readmeEjs = compile(readmeTemplate);
+    const readmeFile = readmeEjs({
+        moduleSystem: answers.moduleSystem
+    })
+
+    await writeFile(`./README.MD`, replaceNewLines(readmeFile), 'utf-8');
 
     const modulesToInstall = [
         ...requiredDeps,
