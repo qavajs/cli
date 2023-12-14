@@ -25,7 +25,7 @@ export default async function(): Promise<void> {
     const chalk = await chalkModule;
     const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
     const argv: any = yargs(process.argv).argv;
-    process.env.CONFIG = argv.config ?? 'cucumber.js';
+    process.env.CONFIG = argv.config ?? 'config.js';
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
     process.env.CLI_ARGV = process.argv.join(' ');

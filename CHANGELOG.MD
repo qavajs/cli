@@ -1,5 +1,20 @@
+# Change Log
+
+All notable changes to the "@qavajs/cli" will be documented in this file.
+
+Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+:rocket: - new feature
+:beetle: - bugfix
+:x: - deprecation
+
 ## Unreleased
-- throw an error in case if config/profile is not found
+- :rocket: scaffold readme.md file
+- :rocket: updated default config to config.js
+
+## 0.33.0
+- :rocket: throw an error in case if config/profile is not found
+- :rocket: added lighthouse package
 
 ## 0.32.1
 - introduced _IQavajsWorld_ describing added executeStep method 
