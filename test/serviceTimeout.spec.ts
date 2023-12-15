@@ -9,9 +9,11 @@ beforeEach(async () => {
     vi.resetAllMocks();
 });
 
-test('default service timeout', async () => {
-    //@ts-ignore
-    vi.mocked(importConfig).mockReturnValue(Promise.resolve({}))
+test.each([
+    ['default', {}, `Service timeout '600000' ms exceeded`],
+    ['custom', {serviceTimeout: 333333}, `Service timeout '333333' ms exceeded`]
+])('%s service timeout', async (_, timeoutValue, errMsg) => {
+    vi.mocked(importConfig).mockReturnValue(Promise.resolve(timeoutValue))
     const cucumberMock = {
         runCucumber: vi.fn(),
         loadConfiguration: vi.fn(() => {
@@ -22,23 +24,5 @@ test('default service timeout', async () => {
         })
     }
     const chalkMock = {blue: vi.fn()}
-    const expectedError = new Error(`Service timeout '600000' ms exceeded`)
-    expect(async () => await run(cucumberMock, chalkMock)).rejects.toThrowError(expectedError)
-});
-
-test('custom service timeout', async () => {
-    //@ts-ignore
-    vi.mocked(importConfig).mockReturnValue(Promise.resolve({serviceTimeout: 333333}))
-    const cucumberMock = {
-        runCucumber: vi.fn(),
-        loadConfiguration: vi.fn(() => {
-            return {runConfiguration: {support: {requireModules: []}}}
-        }),
-        loadSources: vi.fn(() => {
-            return {plan: []}
-        })
-    }
-    const chalkMock = {blue: vi.fn()}
-    const expectedError = new Error(`Service timeout '333333' ms exceeded`)
-    expect(async () => await run(cucumberMock, chalkMock)).rejects.toThrowError(expectedError)
+    expect(async () => await run(cucumberMock, chalkMock)).rejects.toThrowError(errMsg)
 });
