@@ -21,9 +21,7 @@ function mergeTags(tags: string[]) {
     return tags.map((tag: string) => `(${tag})`).join(' and ');
 }
 
-export default async function(): Promise<void> {
-    const chalk = await chalkModule;
-    const { runCucumber, loadConfiguration, loadSources } = await import('@cucumber/cucumber/api');
+export async function run({ runCucumber, loadConfiguration, loadSources }: any, chalk: any): Promise<void> {
     const argv: any = yargs(process.argv).argv;
     process.env.CONFIG = argv.config ?? 'config.js';
     process.env.PROFILE = argv.profile ?? 'default';
@@ -75,4 +73,9 @@ export default async function(): Promise<void> {
         new Promise((_, reject) => setTimeout(reject(new Error(timeoutMessage)), serviceTimeout)),
         serviceHandler.after(result)
     ]);
+}
+export default async function(): Promise<void> {
+    const chalk = await chalkModule;
+    const cucumber = await import('@cucumber/cucumber/api');
+    await run(cucumber, chalk);
 }
