@@ -19,5 +19,5 @@ export default {
         after(result) {
             console.log(result.success);
         }
-    }],
+    }]
 }
