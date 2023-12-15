@@ -39,7 +39,7 @@ module.exports = {
 }
 ```
 There is a 10 minutes default timeout for a before and after test logic to prevent entire process from freezing.
-To set up custom timeout in milliseconds use serviceTimeout property in config.
+To set up a custom timeout in milliseconds use serviceTimeout property in the config file
 ```javascript
 module.exports = {
     default: {
@@ -47,7 +47,6 @@ module.exports = {
     }
 }
 ```
-
 
 ### Pass CLI params to workers
 All params that you passed to qavajs cli will be available in CLI_ARGV environment variable in all child workers.
