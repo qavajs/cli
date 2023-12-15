@@ -38,7 +38,7 @@ module.exports = {
     }
 }
 ```
-There is a 10 minutes default timeout for a before and after test logic to prevent entire process from freezing.
+There is a one minute-long default timeout for a before and after test logic to prevent entire process from freezing.
 To set up a custom timeout in milliseconds use serviceTimeout property in the config file
 ```javascript
 module.exports = {
