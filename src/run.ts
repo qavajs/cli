@@ -26,8 +26,12 @@ function mergeTags(tags: string[]) {
  * @param delay - number milliseconds to delay rejection with an error
  * @param timeoutMessage - string message to set as rejection error
  */
-function getDelayedRejectedPromise(delay: number, timeoutMessage: string): Promise<Error> {
-    return new Promise((_, reject) => setTimeout(() => reject(new Error(timeoutMessage)), delay))
+async function getDelayedRejectedPromise(delay: number, timeoutMessage: string): Promise<Error> {
+    return new Promise((_, reject) => {
+        setTimeout(() => {
+            reject(new Error(timeoutMessage))
+        }, delay)
+    })
 }
 
 export async function run({runCucumber, loadConfiguration, loadSources}: any, chalk: any): Promise<void> {
@@ -42,7 +46,6 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     const timeoutMessage = `Service timeout '${serviceTimeout}' ms exceeded`;
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10_000;
     await Promise.race([
-        // @ts-ignore
         getDelayedRejectedPromise(serviceTimeout, timeoutMessage),
         serviceHandler.before()
     ]);
@@ -78,7 +81,6 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     console.log(chalk.blue(`Test Cases: ${plan.length}`));
     const result: IRunResult = await runCucumber(runConfiguration, environment);
     await Promise.race([
-        // @ts-ignore
         getDelayedRejectedPromise(serviceTimeout, timeoutMessage),
         serviceHandler.after(result)
     ]);

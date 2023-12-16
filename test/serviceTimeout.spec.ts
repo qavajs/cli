@@ -7,32 +7,41 @@ vi.mock('../src/importConfig');
 
 beforeEach(async () => {
     vi.resetAllMocks();
-    vi.useRealTimers()
+    vi.useRealTimers();
 });
 
 test.each([
     // ['default', {}, `Service timeout '600000' ms exceeded`],
-    ['custom', {serviceTimeout: 60_000, service: [{before() {return new Promise(resolve => setTimeout(()=> resolve(0), 25_000));},
-        }]
-    }, `Service timeout '10000' ms exceeded`, 3_000],
+    [
+        'custom',
+        {
+            serviceTimeout: 10_000,
+            service: [
+                {
+                    before() {
+                        return new Promise(resolve => setTimeout(() => resolve(0), 25_000));
+                    },
+                }
+            ]
+        },
+        `Service timeout '10000' ms exceeded`,
+        61_000
+    ],
 ])('%s service timeout', async (_, timeoutValue, errMsg, msRewind) => {
     vi.mocked(importConfig).mockReturnValue(Promise.resolve(timeoutValue));
+    vi.useFakeTimers();
     const cucumberMock = {
         runCucumber: vi.fn(),
         loadConfiguration: vi.fn(() => {
-            return { runConfiguration: { support: { requireModules: [] }}}
+            return {runConfiguration: {support: {requireModules: []}}}
         }),
         loadSources: vi.fn(() => {
-            return { plan: [] }
+            return {plan: []}
         }),
     };
-    const chalkMock = { blue: vi.fn() };
-    vi.useFakeTimers();
-    // console.log('isFake?:', vi.isFakeTimers())
-
-    const failedRun = run(cucumberMock, chalkMock);
-    vi.advanceTimersByTime(70_000)
-    // const expectation = expect(async () => await run(cucumberMock, chalkMock)).rejects;
-    await expect(failedRun).rejects.toThrowError(errMsg)
-    // await expectation.toThrowError(errMsg)
+    const chalkMock = {blue: vi.fn()};
+    const failedRun = run(cucumberMock, chalkMock).catch(err => err);
+    await vi.advanceTimersByTimeAsync(msRewind)
+    const error = await failedRun;
+    expect(error.message).toEqual(errMsg);
 });
