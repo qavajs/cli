@@ -11,6 +11,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## Unreleased
 - :rocket: scaffold readme.md file
 - :rocket: updated default config to config.js
+- :rocket: added timeout to before and after services
 
 ## 0.33.0
 - :rocket: throw an error in case if config/profile is not found
