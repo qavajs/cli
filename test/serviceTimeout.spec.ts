@@ -11,24 +11,18 @@ beforeEach(async () => {
 });
 
 test.each([
-    // ['default', {}, `Service timeout '600000' ms exceeded`],
-    [
-        'custom',
-        {
-            serviceTimeout: 10_000,
-            service: [
-                {
-                    before() {
-                        return new Promise(resolve => setTimeout(() => resolve(0), 25_000));
-                    },
-                }
-            ]
-        },
-        `Service timeout '10000' ms exceeded`,
-        61_000
-    ],
-])('%s service timeout', async (_, timeoutValue, errMsg, msRewind) => {
-    vi.mocked(importConfig).mockReturnValue(Promise.resolve(timeoutValue));
+    ['default', {}, `Service timeout '60000' ms exceeded`, 61_000],
+    ['custom', {serviceTimeout: 10_000}, `Service timeout '10000' ms exceeded`, 11_000],
+])('%s service timeout', async (_, timeoutValue: {}, errMsg: string, msRewind: number) => {
+    vi.mocked(importConfig).mockReturnValue(Promise.resolve(Object.assign({
+        service: [
+            {
+                before() {
+                    return new Promise(resolve => setTimeout(() => resolve(0), 100_000));
+                },
+            }
+        ]
+    }, timeoutValue)));
     vi.useFakeTimers();
     const cucumberMock = {
         runCucumber: vi.fn(),

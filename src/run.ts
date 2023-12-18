@@ -26,7 +26,7 @@ function mergeTags(tags: string[]) {
  * @param delay - number milliseconds to delay rejection with an error
  * @param timeoutMessage - string message to set as rejection error
  */
-async function getDelayedRejectedPromise(delay: number, timeoutMessage: string): Promise<Error> {
+async function getDelayedRejectedPromise(delay: number, timeoutMessage: string): Promise<any> {
     return new Promise((_, reject) => {
         setTimeout(() => {
             reject(new Error(timeoutMessage))
