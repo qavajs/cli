@@ -22,16 +22,17 @@ function mergeTags(tags: string[]) {
 }
 
 /**
- * Returns a new promise that is automatically rejected after a delay time
- * @param delay - number milliseconds to delay rejection with an error
- * @param timeoutMessage - string message to set as rejection error
+ * Timeout promise
+ * @param promise - promise to wait
+ * @param time - timeout
+ * @param timeoutMsg - timeout message
  */
-async function getDelayedRejectedPromise(delay: number, timeoutMessage: string): Promise<any> {
-    return new Promise((_, reject) => {
-        setTimeout(() => {
-            reject(new Error(timeoutMessage))
-        }, delay)
-    })
+function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
+    let timer: NodeJS.Timer;
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => timer = setTimeout(() => reject(new Error(timeoutMsg)), time))
+    ]).finally(() => clearTimeout(timer));
 }
 
 export async function run({runCucumber, loadConfiguration, loadSources}: any, chalk: any): Promise<void> {
@@ -45,10 +46,7 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     const serviceTimeout = config.serviceTimeout ?? 60_000
     const timeoutMessage = `Service timeout '${serviceTimeout}' ms exceeded`;
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10_000;
-    await Promise.race([
-        getDelayedRejectedPromise(serviceTimeout, timeoutMessage),
-        serviceHandler.before()
-    ]);
+    await timeout(serviceHandler.before(), serviceTimeout, timeoutMessage);
     const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
     if (argv.formatOptions) argv.formatOptions = mergeJSONParams(argv.formatOptions);
     if (argv.worldParameters) argv.worldParameters = mergeJSONParams(argv.worldParameters);
@@ -80,10 +78,8 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     const {plan} = await loadSources(runConfiguration.sources);
     console.log(chalk.blue(`Test Cases: ${plan.length}`));
     const result: IRunResult = await runCucumber(runConfiguration, environment);
-    await Promise.race([
-        getDelayedRejectedPromise(serviceTimeout, timeoutMessage),
-        serviceHandler.after(result)
-    ]);
+    await timeout(serviceHandler.after(result), serviceTimeout, timeoutMessage);
+    process.exitCode = result.success ? 0 : 1;
 }
 
 export default async function (): Promise<void> {

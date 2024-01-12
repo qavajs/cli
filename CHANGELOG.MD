@@ -8,11 +8,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## Unreleased
+## 0.34.0
 - :rocket: scaffold readme.md file
 - :rocket: updated default config to config.js
 - :rocket: added timeout to before and after services
-
+- :rocket: emit non-zero exit code in case of failures
+  
 ## 0.33.0
 - :rocket: throw an error in case if config/profile is not found
 - :rocket: added lighthouse package

@@ -32,7 +32,7 @@ module.exports = {
     default: {
         service: [{
             after(result) {
-                if (!result.success) process.exit(1);
+                if (!result.success) process.exitCode = 1;
             }
         }]
     }
