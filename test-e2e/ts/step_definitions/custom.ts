@@ -1,7 +1,7 @@
 import { DataTable, When } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import memory from '@qavajs/memory';
-import {Override} from '../../../utils';
+import { Override } from '../../../utils';
 //@ts-ignore
 import moduleCJS from '../../modules/module.cjs';
 import { IQavajsWorld } from '../../../index';

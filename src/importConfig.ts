@@ -2,8 +2,8 @@ import { join } from 'path';
 
 let loadTS = true;
 async function importTS(configPath: string) {
-    const { register } = require('ts-node');
     if (loadTS) {
+        const { register } = require('ts-node');
         register();
         loadTS = false;
     }
