@@ -79,7 +79,7 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     console.log(chalk.blue(`Test Cases: ${plan.length}`));
     const result: IRunResult = await runCucumber(runConfiguration, environment);
     await timeout(serviceHandler.after(result), serviceTimeout, timeoutMessage);
-    process.exitCode = result.success ? 0 : 1;
+    process.exitCode = result.success || argv.errorExit === false ? 0 : 1;
 }
 
 export default async function (): Promise<void> {
