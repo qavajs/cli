@@ -28,7 +28,7 @@ function mergeTags(tags: string[]) {
  * @param timeoutMsg - timeout message
  */
 function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
-    let timer: NodeJS.Timer;
+    let timer: NodeJS.Timeout;
     return Promise.race([
         promise,
         new Promise((_, reject) => timer = setTimeout(() => reject(new Error(timeoutMsg)), time))
