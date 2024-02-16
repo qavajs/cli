@@ -8,6 +8,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## 0.34.2
+- :beetle: fixed array params provided from CLI
+- :rocket: added CLI option descriptions and help
+
 ## 0.34.1
 - :rocket: added _--no-error-exit_ flag to prevent emitting non-zero error code
 

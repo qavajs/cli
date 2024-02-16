@@ -3,6 +3,7 @@ import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
 import { IPlannedPickle, IRunResult } from '@cucumber/cucumber/api';
+import { cliOptions } from './cliOptions';
 const chalkModule = import('chalk').then(m => m.default);
 
 /**
@@ -36,7 +37,7 @@ function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
 }
 
 export async function run({runCucumber, loadConfiguration, loadSources}: any, chalk: any): Promise<void> {
-    const argv: any = yargs(process.argv).argv;
+    const argv: any = cliOptions(process.argv);
     process.env.CONFIG = argv.config ?? 'config.js';
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
