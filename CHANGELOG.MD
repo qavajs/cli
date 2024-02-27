@@ -7,6 +7,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
+       
+## 0.35.0
+- :rocket: load support files programmatically
 
 ## 0.34.2
 - :beetle: fixed array params provided from CLI

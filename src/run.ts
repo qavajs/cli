@@ -1,4 +1,3 @@
-import yargs from 'yargs';
 import ServiceHandler from './ServiceHandler';
 import path from 'path';
 import importConfig from './importConfig';
@@ -36,7 +35,7 @@ function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
     ]).finally(() => clearTimeout(timer));
 }
 
-export async function run({runCucumber, loadConfiguration, loadSources}: any, chalk: any): Promise<void> {
+export async function run({runCucumber, loadConfiguration, loadSources, loadSupport}: any, chalk: any): Promise<void> {
     const argv: any = cliOptions(process.argv);
     process.env.CONFIG = argv.config ?? 'config.js';
     process.env.PROFILE = argv.profile ?? 'default';
@@ -64,6 +63,7 @@ export async function run({runCucumber, loadConfiguration, loadSources}: any, ch
     }
     const {runConfiguration} = await loadConfiguration(options, environment);
     runConfiguration.support.requireModules = [memoryLoadHook, ...runConfiguration.support.requireModules];
+    runConfiguration.support = await loadSupport(runConfiguration);
     if (argv.shard) {
         console.log(chalk.blue(`Shard: ${argv.shard}`));
         const {plan} = await loadSources(runConfiguration.sources);
