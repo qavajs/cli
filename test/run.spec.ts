@@ -22,6 +22,9 @@ test('exitCode=1 if scenario failed', async () => {
         loadSources: vi.fn(() => {
             return {plan: []}
         }),
+        loadSupport: vi.fn(() => {
+            return {}
+        })
     };
     const chalkMock = {blue: vi.fn()};
     await run(cucumberMock, chalkMock);
@@ -41,6 +44,9 @@ test('exitCode=0 if passed --no-error-exit', async () => {
         loadSources: vi.fn(() => {
             return {plan: []}
         }),
+        loadSupport: vi.fn(() => {
+            return {}
+        })
     };
     const chalkMock = {blue: vi.fn()};
     await run(cucumberMock, chalkMock);
