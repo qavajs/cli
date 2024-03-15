@@ -3,10 +3,6 @@ import yargs from 'yargs';
 export function cliOptions(argv: string[]) {
     return yargs(argv)
         .command(
-            'install',
-            'init qavajs project and install dependencies'
-        )
-        .command(
             'run',
             'run qavajs tests'
         )
