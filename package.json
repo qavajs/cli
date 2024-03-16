@@ -43,7 +43,7 @@
     "@types/yargs": "^17.0.32",
     "@vitest/coverage-v8": "^1.4.0",
     "@vitest/ui": "^1.4.0",
-    "chai": "^4.3.10",
+    "chai": "^5.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
     "vitest": "^1.4.0"
