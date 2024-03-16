@@ -7,7 +7,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
-       
+
+## 0.36.0
+- :x: install script moved to separate module @qavajs/create
+- :rocket: make run command optional
+
 ## 0.35.0
 - :rocket: load support files programmatically
 

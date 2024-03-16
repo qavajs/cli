@@ -6,13 +6,11 @@ Cli for @qavajs framework.
           
 `npm install @qavajs/cli`
 
-Setup project
-
-`npx qavajs install`
-
 Run tests
 
 `npx qavajs run --config <config> --profile <profile>`
+or
+`npx qavajs --config <config> --profile <profile>`
 
 ### Override memory values
 In case if tests need to be run with updated memory value they can be passed via CLI (e.g run scenarios on some other url)
