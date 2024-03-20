@@ -3,7 +3,7 @@ import path from 'path';
 import importConfig from './importConfig';
 import { IPlannedPickle, IRunResult } from '@cucumber/cucumber/api';
 import { cliOptions } from './cliOptions';
-import * as fs from 'fs';
+import { existsSync } from 'fs';
 const chalkModule = import('chalk').then(m => m.default);
 
 /**
@@ -38,8 +38,8 @@ function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
 
 function getConfig(argvConfig?: string) {
     if (argvConfig) return argvConfig;
-    if (fs.existsSync('./config.ts')) return 'config.ts';
-    if (fs.existsSync('./config.js')) return 'config.js';
+    if (existsSync('./config.ts')) return 'config.ts';
+    if (existsSync('./config.js')) return 'config.js';
     throw new Error('No config provided');
 }
 
