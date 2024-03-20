@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## Unreleased
+- :rocket: add logic to find default config
+
 ## 0.36.0
 - :x: install script moved to separate module @qavajs/create
 - :rocket: make run command optional
