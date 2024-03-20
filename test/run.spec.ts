@@ -11,6 +11,8 @@ beforeEach(async () => {
 });
 
 test('exitCode=1 if scenario failed', async () => {
+    process.argv.push('--config')
+    process.argv.push('config.ts')
     vi.mocked(importConfig).mockReturnValue(Promise.resolve({
         service: []
     }));
@@ -32,7 +34,8 @@ test('exitCode=1 if scenario failed', async () => {
 });
 
 test('exitCode=0 if passed --no-error-exit', async () => {
-    process.argv.push('--no-error-exit')
+    process.argv.push('--no-error-exit');
+    process.argv.push('--config')
     vi.mocked(importConfig).mockReturnValue(Promise.resolve({
         service: []
     }));

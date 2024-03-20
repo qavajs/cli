@@ -3,6 +3,7 @@ import path from 'path';
 import importConfig from './importConfig';
 import { IPlannedPickle, IRunResult } from '@cucumber/cucumber/api';
 import { cliOptions } from './cliOptions';
+import { existsSync } from 'fs';
 const chalkModule = import('chalk').then(m => m.default);
 
 /**
@@ -35,9 +36,16 @@ function timeout(promise: Promise<void>, time: number, timeoutMsg: string) {
     ]).finally(() => clearTimeout(timer));
 }
 
+function getConfig(argvConfig?: string) {
+    if (argvConfig) return argvConfig;
+    if (existsSync('./config.ts')) return 'config.ts';
+    if (existsSync('./config.js')) return 'config.js';
+    throw new Error('No config provided');
+}
+
 export async function run({runCucumber, loadConfiguration, loadSources, loadSupport}: any, chalk: any): Promise<void> {
     const argv: any = cliOptions(process.argv);
-    process.env.CONFIG = argv.config ?? 'config.js';
+    process.env.CONFIG = getConfig(argv.config);
     process.env.PROFILE = argv.profile ?? 'default';
     process.env.MEMORY_VALUES = argv.memoryValues ?? '{}';
     process.env.CLI_ARGV = process.argv.join(' ');

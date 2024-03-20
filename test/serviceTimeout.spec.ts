@@ -14,6 +14,8 @@ test.each([
     ['default', {}, `Service timeout '60000' ms exceeded`, 61_000],
     ['custom', {serviceTimeout: 10_000}, `Service timeout '10000' ms exceeded`, 11_000],
 ])('%s service timeout', async (_, timeoutValue: {}, errMsg: string, msRewind: number) => {
+    process.argv.push('--config')
+    process.argv.push('config.ts')
     vi.mocked(importConfig).mockReturnValue(Promise.resolve(Object.assign({
         service: [
             {
