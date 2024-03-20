@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
-## Unreleased
+## 0.37.0
 - :rocket: add logic to find default config
 
 ## 0.36.0
