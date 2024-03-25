@@ -3,7 +3,7 @@ import path from 'path';
 import importConfig from './importConfig';
 import { IPlannedPickle, IRunResult } from '@cucumber/cucumber/api';
 import { cliOptions } from './cliOptions';
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
 const chalkModule = import('chalk').then(m => m.default);
 
 /**

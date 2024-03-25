@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 let loadTS = true;
 async function importTS(configPath: string) {
