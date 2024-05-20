@@ -55,7 +55,7 @@ export async function run({runCucumber, loadConfiguration, loadSources, loadSupp
     const timeoutMessage = `Service timeout '${serviceTimeout}' ms exceeded`;
     process.env.DEFAULT_TIMEOUT = config.defaultTimeout ?? 10_000;
     await timeout(serviceHandler.before(), serviceTimeout, timeoutMessage);
-    const memoryLoadHook = path.resolve(__dirname, './loadHook.js');
+    const memoryLoadHook = path.resolve(__dirname, './load.js');
     if (argv.formatOptions) argv.formatOptions = mergeJSONParams(argv.formatOptions);
     if (argv.worldParameters) argv.worldParameters = mergeJSONParams(argv.worldParameters);
     if (argv.tags instanceof Array) argv.tags = mergeTags(argv.tags);

@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :beetle: - bugfix
 :x: - deprecation
 
+## 0.38.0
+- :rocket: added _setValue_ and _getValue_ world functions to interact with memory
+- :x: - qavajs entities moved from global to cucumber world.
+globals will be removed in future releases.
+
 ## 0.37.0
 - :rocket: add logic to find default config
 

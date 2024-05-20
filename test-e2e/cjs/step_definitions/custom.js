@@ -22,6 +22,11 @@ When('I verify that memory loaded', async function() {
     expect(memory.getValue('$additionalValue')).to.equal(12);
 });
 
+When('I verify that memory is connected to qavajs world', async function() {
+    expect(this.getValue('$customValue')).to.equal('cjs');
+    expect(this.getValue('$additionalValue')).to.equal(12);
+});
+
 When('I verify that process env loaded', async function() {
     expect(process.env.CONFIG).to.equal('test-e2e/cjs/config.js');
     expect(process.env.PROFILE).to.equal('default');
