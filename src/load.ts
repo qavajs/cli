@@ -1,4 +1,4 @@
-import { Before, DataTable, IWorld, setDefaultTimeout, supportCodeLibraryBuilder } from '@cucumber/cucumber';
+import { Before, DataTable, setDefaultTimeout, supportCodeLibraryBuilder } from '@cucumber/cucumber';
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
 import { IQavajsWorld } from './IQavajsWorld';
