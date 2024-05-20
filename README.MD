@@ -82,3 +82,13 @@ When('I do smth complex', async function() {
     ]))
 });
 ```
+
+### World
+Module extends CucumberJS world with additional entities  
+ 
+| entity      | type     | description                                      | example                                                            |
+|-------------|----------|--------------------------------------------------|--------------------------------------------------------------------|
+| config      | object   | loaded config                                    | `this.config.parallel`                                             |
+| executeStep | function | programmatically execute certain step definition | `await this.executeStep("I type 'username' to 'Username Input'");` |
+| setValue    | function | set memory value                                 | `await this.setValue('key', 'value');`                             |
+| getValue    | function | get memory value or expression                   | `await this.getValue('$key');`                                     |
