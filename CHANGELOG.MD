@@ -7,6 +7,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :rocket: - new feature
 :beetle: - bugfix
 :x: - deprecation
+:pencil: - chore
+
+## 0.38.1
+- :pencil: removed obsolete dependencies
 
 ## 0.38.0
 - :rocket: added _setValue_ and _getValue_ world functions to interact with memory
