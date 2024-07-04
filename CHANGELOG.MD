@@ -9,7 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
-## [0.39.1]
+## [Unreleased]
 - :rocket: changed label to @qavajs/cli
 
 ## 0.39.0
