@@ -9,7 +9,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
-## [Unreleased]
+## 0.40.0
+- :rocket: added config type definition
 - :rocket: changed label to @qavajs/cli
 
 ## 0.39.0
