@@ -1,7 +1,9 @@
 import Memory from './memory';
 import { IRunResult } from '@cucumber/cucumber/api';
+import { IQavajsConfig } from "../../index";
 
 export default {
+    unexpected: 32,
     paths: ['test-e2e/features/*.feature'],
     require: [
         'test-e2e/ts/step_definitions/*.ts'
@@ -20,5 +22,6 @@ export default {
         after(result: IRunResult) {
             console.log(result.success);
         }
-    }]
-}
+    }],
+    serviceTimeout: 20000
+} as IQavajsConfig;
