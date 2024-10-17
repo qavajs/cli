@@ -1,12 +1,14 @@
-import { Before, DataTable, setDefaultTimeout, supportCodeLibraryBuilder } from '@cucumber/cucumber';
+import {
+  Before,
+  DataTable,
+  defineParameterType,
+  setDefaultTimeout,
+  supportCodeLibraryBuilder
+} from '@cucumber/cucumber';
+
 import memory from '@qavajs/memory';
 import importConfig from './importConfig';
 import { IQavajsWorld } from './IQavajsWorld';
-
-declare global {
-  // eslint-disable-next-line no-var
-  var config: any;
-}
 
 const configPath = process.env.CONFIG as string;
 const profile = process.env.PROFILE as string;
@@ -16,8 +18,8 @@ const memoryValues = JSON.parse(process.env.MEMORY_VALUES as string);
 export async function executeStep(this: any, text: string, extraParam?: DataTable | string) {
   const stepDefsLibrary = supportCodeLibraryBuilder.buildStepDefinitions();
   const steps = stepDefsLibrary.stepDefinitions.filter(s => s.matchesStepName(text));
-  if (steps.length === 0) throw new Error(`Step "${text}" is not defined`);
-  if (steps.length > 1) throw new Error(`"${text}" matches multiple step definitions`);
+  if (steps.length === 0) throw new Error(`Step '${text}' is not defined`);
+  if (steps.length > 1) throw new Error(`'${text}' matches multiple step definitions`);
   const step = steps.pop() as any;
   const { parameters } = await step.getInvocationParameters({ step: { text }, world: this } as any);
   try {
@@ -35,6 +37,35 @@ async function getValue(expression: string): Promise<any> {
   return memory.getValue(expression);
 }
 
+export class MemoryValue {
+  constructor(public expression: string) {}
+
+  /**
+   * Return resolved value
+   * @example
+   * url.value()
+   * @return Promise<any>
+   */
+  value() { return memory.getValue(this.expression) }
+
+  /**
+   * Set value to memory with provided key
+   * @param value any - value to set
+   * @example
+   * url.set('https://qavajs.github.io/')
+   */
+  set(value: string): void { memory.setValue(this.expression, value); }
+}
+
+defineParameterType({
+  name: 'value',
+  regexp: /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/,
+  transformer: (s1, s2) => {
+    const expression = (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'")
+    return new MemoryValue(expression)
+  }
+});
+
 /**
  * Basic initialization hook
  */
@@ -50,7 +81,6 @@ Before({name: 'qavajs init'}, async function (this: IQavajsWorld, scenario) {
   this.executeStep = executeStep;
   this.getValue = getValue;
   this.setValue = setValue;
-  global.config = this.config;
 });
 
 setDefaultTimeout(parseInt(process.env.DEFAULT_TIMEOUT as string));
