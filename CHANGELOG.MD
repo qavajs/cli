@@ -9,8 +9,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :x: - deprecation
 :pencil: - chore
 
-## [Unreleased]
-- :pencil: updated dependencies
+## 2.0.0
+- :rocket: added _value_ parameter type
 
 ## 0.40.0
 - :rocket: added config type definition

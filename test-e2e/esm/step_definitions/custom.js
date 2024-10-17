@@ -4,6 +4,7 @@ import memory from '@qavajs/memory';
 import {Override} from '../../../utils.js';
 import moduleESM from '../../modules/module.mjs';
 import moduleCJS from '../../modules/module.cjs';
+
 When('I do test', async function() {});
 
 Override('I do test', async function() {
@@ -17,7 +18,7 @@ When('I do smth async', async function() {
 });
 
 When('I verify that config loaded', async function() {
-    expect(config.defaultTimeout).to.equal(20000);
+    expect(this.config.defaultTimeout).to.equal(20000);
 });
 
 When('I verify that memory loaded', async function() {
@@ -56,4 +57,8 @@ When('Nested step {string}', async function(val) {
 
 When('Data table step:', function (dataTable) {
     memory.setValue('dataTable', dataTable);
+});
+
+When('Read memory {value} from cucumber type', async function(memoryValue) {
+    expect(memoryValue.value()).to.equal('esm');
 });

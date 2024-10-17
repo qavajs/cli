@@ -22,3 +22,7 @@ Feature: Feature
   Scenario: execute composite step
     Given I execute composite step
 
+  Scenario: custom memory value type
+    When Read memory "$customValue" from cucumber type
+    When Read memory '$customValue' from cucumber type
+
