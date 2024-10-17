@@ -73,6 +73,15 @@ When('Set memory {value} as {string}', async function(memoryKey, value) {
 });
 ```
 
+### Validation parameter type
+_validation_ parameter type provides API to verify values by certain condition
+
+```javascript
+When('I expect {string} {validation} {string}', async function(value1, validate, value2) {
+    validate(value1, value2);
+});
+```
+
 ### Test Sharding
 qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.

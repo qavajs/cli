@@ -7,6 +7,7 @@ import {
 } from '@cucumber/cucumber';
 
 import memory from '@qavajs/memory';
+import { getValidation, getPollValidation } from '@qavajs/validation';
 import importConfig from './importConfig';
 import { IQavajsWorld } from './IQavajsWorld';
 
@@ -57,14 +58,35 @@ export class MemoryValue {
   set(value: string): void { memory.setValue(this.expression, value); }
 }
 
+export interface Validation {
+  (AR: any, ER: any): void;
+  poll: (AR: any, ER: any, options?: {timeout?: number, interval?: number}) => Promise<unknown>
+}
+
+function transformString(fn: (value: string) => any) {
+  return function (s1: string, s2: string) {
+    const expression = (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'")
+    return fn(expression);
+  }
+}
+
 defineParameterType({
   name: 'value',
   regexp: /"([^"\\]*(\\.[^"\\]*)*)"|'([^'\\]*(\\.[^'\\]*)*)'/,
-  transformer: (s1, s2) => {
-    const expression = (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'")
-    return new MemoryValue(expression)
-  }
+  transformer: transformString(expression => new MemoryValue(expression)),
 });
+
+defineParameterType({
+  name: 'validation',
+  regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|strictly equal|deeply equal|have member|match|contain|above|below|greater than|less than|have type|have property|match schema|include members)(?:s|es)?)/,
+  transformer: transformString(expression => {
+    const validation = getValidation(expression) as Validation;
+    validation.poll = getPollValidation(expression);
+    return validation;
+  }),
+  useForSnippets: false
+});
+
 
 /**
  * Basic initialization hook
