@@ -11,6 +11,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 2.0.0
 - :rocket: added _value_ parameter type
+- :rocket: added _validation_ parameter type
 
 ## 0.40.0
 - :rocket: added config type definition

@@ -4,7 +4,7 @@ import memory from '@qavajs/memory';
 import { Override } from '../../../utils';
 //@ts-ignore
 import moduleCJS from '../../modules/module.cjs';
-import { IQavajsWorld } from '../../../index';
+import {IQavajsWorld, Validation} from '../../../index';
 import { type MemoryValue } from "../../../src/load";
 
 When('I do test', async function() {});
@@ -64,4 +64,13 @@ When('Data table step:', function (dataTable) {
 
 When('Read memory {value} from cucumber type', async function(memoryValue: MemoryValue) {
     expect(memoryValue.value()).to.equal('ts');
+});
+
+When('write {string} to {value} value', async function(value: string, key: MemoryValue) {
+    key.set(value);
+    expect(memory.getValue('$'+key.expression)).to.equal(value);
+});
+
+When('I expect {string} {validation} {string}', async function(value1: string, validate: Validation, value2: string) {
+    validate(value1, value2);
 });

@@ -66,3 +66,12 @@ When('Data table step:', function (dataTable) {
 When('Read memory {value} from cucumber type', async function(memoryValue) {
     expect(memoryValue.value()).to.equal('cjs');
 });
+
+When('write {string} to {value} value', async function(value, key) {
+    key.set(value);
+    expect(memory.getValue('$'+key.expression)).to.equal(value);
+});
+
+When('I expect {string} {validation} {string}', async function(value1, validate, value2) {
+    validate(value1, value2);
+});
