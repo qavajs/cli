@@ -55,11 +55,12 @@ export class MemoryValue {
    * @example
    * url.set('https://qavajs.github.io/')
    */
-  set(value: string): void { memory.setValue(this.expression, value); }
+  set(value: any): void { memory.setValue(this.expression, value); }
 }
 
 export interface Validation {
   (AR: any, ER: any): void;
+  type: string;
   poll: (AR: any, ER: any, options?: {timeout?: number, interval?: number}) => Promise<unknown>
 }
 
@@ -79,9 +80,10 @@ defineParameterType({
 defineParameterType({
   name: 'validation',
   regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|strictly equal|deeply equal|have member|match|contain|above|below|greater than|less than|have type|have property|match schema|include members)(?:s|es)?)/,
-  transformer: transformString(expression => {
-    const validation = getValidation(expression) as Validation;
-    validation.poll = getPollValidation(expression);
+  transformer: transformString(type => {
+    const validation = getValidation(type) as Validation;
+    validation.poll = getPollValidation(type);
+    validation.type = type;
     return validation;
   }),
   useForSnippets: false
@@ -103,6 +105,11 @@ Before({name: 'qavajs init'}, async function (this: IQavajsWorld, scenario) {
   this.executeStep = executeStep;
   this.getValue = getValue;
   this.setValue = setValue;
+  this.validation = function (type: string) {
+    const validation = getValidation(type) as Validation;
+    validation.poll = getPollValidation(type);
+    return validation;
+  }
 });
 
 setDefaultTimeout(parseInt(process.env.DEFAULT_TIMEOUT as string));
