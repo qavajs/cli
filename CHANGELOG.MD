@@ -10,6 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 :pencil: - chore
 
 ## 2.0.0
+- :rocket: package renamed to @qavajs/core
 - :rocket: added _value_ parameter type
 - :rocket: added _validation_ parameter type
 

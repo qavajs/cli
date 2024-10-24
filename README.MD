@@ -114,3 +114,4 @@ Module extends CucumberJS world with additional entities
 | executeStep | function | programmatically execute certain step definition | `await this.executeStep("I type 'username' to 'Username Input'");` |
 | setValue    | function | set memory value                                 | `await this.setValue('key', 'value');`                             |
 | getValue    | function | get memory value or expression                   | `await this.getValue('$key');`                                     |
+| validation  | function | get validation function based                    | `await this.getValue('to equal');`                                 |
