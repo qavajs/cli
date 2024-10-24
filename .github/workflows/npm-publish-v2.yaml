@@ -1,4 +1,5 @@
-# This workflow runs tests using node and then publish a package to GitHub Packages when a release with tag starting with "2" created.
+# This workflow runs tests using node and then publishes a package to GitHub Packages
+# whenever a release is created, and it's tag starts with "2"
 # The pipeline is aimed on "v2" branch
 # For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
 
