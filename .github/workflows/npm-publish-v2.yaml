@@ -1,0 +1,28 @@
+# This workflow runs tests using node and then publish a package to GitHub Packages when a release with tag starting with "2" created.
+# The pipeline is aimed on "v2" branch
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: Node.js Package v2
+
+on:
+  release:
+    types: [published]
+    tags:
+      - '2*'
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'v2'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
