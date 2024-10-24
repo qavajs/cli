@@ -2,6 +2,7 @@ const { When, DataTable } = require('@cucumber/cucumber');
 const { Override } = require('../../../utils');
 const { expect } = require('chai');
 const memory = require('@qavajs/memory');
+
 When('I do test', async function() {});
 Override('I do test', async function() {
     console.log('I am overridden')
@@ -14,7 +15,7 @@ When('I do smth async', async function() {
 });
 
 When('I verify that config loaded', async function() {
-    expect(config.defaultTimeout).to.equal(20000);
+    expect(this.config.defaultTimeout).to.equal(20000);
 });
 
 When('I verify that memory loaded', async function() {
@@ -60,4 +61,17 @@ When('Nested step {string}', async function(val) {
 
 When('Data table step:', function (dataTable) {
     memory.setValue('dataTable', dataTable);
+});
+
+When('Read memory {value} from cucumber type', async function(memoryValue) {
+    expect(memoryValue.value()).to.equal('cjs');
+});
+
+When('write {string} to {value} value', async function(value, key) {
+    key.set(value);
+    expect(memory.getValue('$'+key.expression)).to.equal(value);
+});
+
+When('I expect {string} {validation} {string}', async function(value1, validate, value2) {
+    validate(value1, value2);
 });
