@@ -80,12 +80,12 @@ defineParameterType({
 defineParameterType({
   name: 'validation',
   regexp: /((?:is |do |does |to )?(not |to not )?(?:to )?(?:be )?(equal|strictly equal|deeply equal|have member|match|contain|above|below|greater than|less than|have type|have property|match schema|include members)(?:s|es)?)/,
-  transformer: transformString(type => {
+  transformer: type => {
     const validation = getValidation(type) as Validation;
     validation.poll = getPollValidation(type);
     validation.type = type;
     return validation;
-  }),
+  },
   useForSnippets: false
 });
 
